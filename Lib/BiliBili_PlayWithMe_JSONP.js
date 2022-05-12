@@ -26,88 +26,36 @@ class BiliBili_PlayWithMe {
     PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP() {
         let ElmtsStr = '<script id="scpt_BiliBili_PlayWithMe_JSONP" src="http://localhost:9000/BiliFanFan/BiLiveChat/Proxy/PlgnSrtAndWEBSocket?RoomID=' + BiliBili_PlayWithMe.LiveRoomID.toString() + '" type="text/javascript"></script>';
         let Elmts = document.createElement('script');
-        Elmts.src = "http://localhost:9000/BiliFanFan/BiLiveChat/Proxy/PlgnSrtAndWEBSocket?RoomID=" + BiliBili_PlayWithMe.LiveRoomID.toString();
+        Elmts.src = "http://BiLive.XL7Z.net/BiliFanFan/BiLiveChat/Proxy/PlgnSrtAndWEBSocket?RoomID=" + BiliBili_PlayWithMe.LiveRoomID.toString();
 
         document.body.appendChild(Elmts);
 
         Elmts.onload = (evt) => {
-            this.WS = new BiliBili_WEBSocket(BiLiveChat_RemoteAuthorizerResponse.data.auth_body);
+            BiliBili_PlayWithMe.NewSystemNotice(BiLiveChat_RemoteAuthorizerResponse.Msg)
+            if (BiLiveChat_RemoteAuthorizerResponse.Code == 200)
+                this.WS = new BiliBili_WEBSocket(BiLiveChat_RemoteAuthorizerResponse.WSData.data.auth_body);
             evt.currentTarget.remove();
         }
 
         Elmts.onerror = (evt) => {
+            BiliBili_PlayWithMe.NewSystemNotice("代签授权失败，请联系Q群 248810727 https://jq.qq.com/?_wv=1027&k=UTn3mvTF")
             evt.currentTarget.remove();
         }
-
-
-
-
-
-
-
-
-
-        // // 转为符合JSON标准的String字符串
-        // let RequestBodyStr = JSON.stringify(RequestBody);
-
-        // // 对应接口
-        // let Response = await fetch(BiliBili_PlayWithMe.Authorizer.RemoteAuthorizerServer +
-        //     "?AppID=" + BiliBili_PlayWithMe.AppID +
-        //     "&Timestamp=" + BiliBili_PlayWithMe.Param_Timestamp +
-        //     "&RoomID=" + BiliBili_PlayWithMe.LiveRoomID +
-        //     "&Mid=" + BiliBili_PlayWithMe.MID +
-        //     "&Sign=" + BiliBili_PlayWithMe.Param_Sign +
-        //     "&DeveloperID=" + BiliBili_PlayWithMe.Authorizer.DeveloperID,
-        //     // 请求签名
-        //     this.Authorization(Request));
-
-        // switch (Response.status) {
-        //     case 200:
-        //         let ResponseJSON = await Response.json();
-        //         console.log("WEBSocketInfo请求完毕");
-        //         if (BiliBili_PlayWithMe.AuthorizationResponseCode(ResponseJSON, "WEBSocketInfo")) {
-        //             this.WS = new BiliBili_WEBSocket(ResponseJSON.data.auth_body);
-        //         };
-        //         break;
-        // }
     }
 
-    /**
-     * 解析返回的JSON，在Log里提供信息
-     * @param {JSON} ResponseJSON 返回的JSON
-     * @param {String} Name 请求的接口名，用于Log显示
-     * @returns {Boolean} 是否成功
-     */
-    static AuthorizationResponseCode(ResponseJSON, Name) {
-        console.log(ResponseJSON);
-        switch (ResponseJSON.code) {
-            case 0:
-                console.log("[请求" + Name + "]请求成功");
-                window.document.getElementById('div_TesterOutputer').innerHTML += "[请求" + Name + "]请求成功<hr>";
-                return true;
-            case 4001:
-                console.log("[请求" + Name + "]请求鉴权失败：应用无效，AppID与开发者Access不符，检查AccessKey和AppID");
-                window.document.getElementById('div_TesterOutputer').innerHTML += "[请求" + Name + "]请求鉴权失败：应用无效，AppID与开发者Access不符，检查AccessKey和AppID" + '<hr>';
-                return false;
-            case 4012:
-                console.log("[请求" + Name + "]请求鉴权失败：错误的MD5，请检查x-bili-content-md5");
-                window.document.getElementById('div_TesterOutputer').innerHTML += "[请求" + Name + "]请求鉴权失败：错误的MD5，请检查x-bili-content-md5<hr/>";
-                return false;
-            case 4002:
-                console.log("[请求" + Name + "]请求鉴权失败：错误的MD5，请检查Authorization的签名值\n必要时可访问：https://www.bilibili.com/read/cv16173511 \n使用上面的样本测试运算结果");
-                window.document.getElementById('div_TesterOutputer').innerHTML += "[请求" + Name + "]请求鉴权失败：错误的MD5，请检查Authorization的签名值<br/>必要时可访问：<a href=\"https: //www.bilibili.com/read/cv16173511\">签名参考样例</a>使用上面的样本测试运算结果<hr/>";
-                return false;
-            case 4003:
-                console.log("[请求" + Name + "]请求鉴权失败：使用了过于古老的时间戳，请检查x-bili-timestamp的时间戳，B站要求十分钟内有效\n必要时可访问：<a href='https://c.runoob.com/front-end/852/'>时间戳在线查询</a>将其与现实中的日期时间互转");
-                window.document.getElementById('div_TesterOutputer').innerHTML += "[请求" + Name + "]请求鉴权失败：使用了过于古老的时间戳，请检查x-bili-timestamp的时间戳，B站要求十分钟内有效<br/>必要时可访问：<a href='https://c.runoob.com/front-end/852/'>时间戳在线查询<\a>将其与现实中的日期时间互转<hr/>";
-                return false;
-            case 4004:
-                console.log("[请求" + Name + "]请求鉴权失败：使用了固定的随机数或重复内容，请检查x-bili-signature-nonce，B站要求不能连续两次使用同一个随机数");
-                window.document.getElementById('div_TesterOutputer').innerHTML += "[请求" + Name + "]请求鉴权失败：使用了固定的随机数或重复内容，请检查x-bili-signature-nonce，B站要求不能连续两次使用同一个随机数<hr/>";
-                return false;
-            default:
-                return false;
-        }
+    static NewSystemNotice(Str) {
+        BiliBili_PlayWithMe.NewDanmaku({
+            "fans_medal_level": 21,
+            "fans_medal_name": "官方",
+            "fans_medal_wearing_status": true,
+            "guard_level": 0,
+            "msg": Str,
+            "timestamp": 1650717881,
+            "uid": 3102384,
+            "uname": "猫裙少年泽远喵",
+            "uface": "http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg",
+            "room_id": 4639581
+        });
     }
 
     static NewDanmaku() {
@@ -301,19 +249,8 @@ class BiliBili_WEBSocket extends WebSocket {
                 }
                 break;
             case 8:
+                BiliBili_PlayWithMe.NewSystemNotice("连上了喵！")
                 console.log("[开放平台长链接]解析到服务器的登陆回复");
-                BiliBili_PlayWithMe.NewDanmaku({
-                    "fans_medal_level": 21,
-                    "fans_medal_name": "黑喵姐",
-                    "fans_medal_wearing_status": false,
-                    "guard_level": 0,
-                    "msg": "连上了喵！",
-                    "timestamp": 1650717881,
-                    "uid": 3102384,
-                    "uname": "猫裙少年泽远喵",
-                    "uface": "http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg",
-                    "room_id": 4639581
-                });
                 break;
             default:
 
@@ -322,29 +259,7 @@ class BiliBili_WEBSocket extends WebSocket {
     }
 }
 
-/**
- * 
- */
-class UnixTimestampTools {
 
-    /**
-     * 
-     * @param {Int} Timestamp 秒级时间戳
-     * @returns 返回 JavaScript 的 Date 对象
-     */
-    static Ts2DateObj(Timestamp) {
-        return new Date(Timestamp * 1000);
-    }
-
-    /**
-     * 
-     * @param {Int} Timestamp 秒级时间戳
-     * @returns 返回 JavaScript 的 Date.toLocaleString()
-     */
-    static Ts2DateStr(Timestamp) {
-        return Ts2DateObj(Timestamp).toLocaleString();
-    }
-}
 
 /**
  * 静态工具类
@@ -372,5 +287,21 @@ class UtilTools {
         return new Uint8Array(arr);
     }
 
-    static UnixTimestamp = new UnixTimestampTools();
+    /**
+     * 
+     * @param {Int} Timestamp 秒级时间戳
+     * @returns 返回 JavaScript 的 Date 对象
+     */
+    static Timestamp2DateObj(Timestamp) {
+        return new Date(Timestamp * 1000);
+    }
+
+    /**
+     * 
+     * @param {Int} Timestamp 秒级时间戳
+     * @returns 返回 JavaScript 的 Date.toLocaleString()
+     */
+    static Timestamp2DateStr(Timestamp) {
+        return UtilTools.Timestamp2DateObj(Timestamp).toLocaleString();
+    }
 }

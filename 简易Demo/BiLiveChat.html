@@ -37,7 +37,7 @@
     // 手动设置直播间号码
     BiliBili_PlayWithMe.LiveRoomID = 4639581;
 
-    let Outputer = Outputwindow.document.getElementById('div_TesterOutputer');
+    let Outputer = window.document.getElementById('div_Outputer');
 
 
     // 收到新弹幕后会触发下面的 BiliBili_PlayWithMe.NewDanmaku 方法，在这里写你自己的JS代码
@@ -55,7 +55,7 @@
         "room_id": 4639581
     };
     BiliBili_PlayWithMe.NewDanmaku = (Dmk) => {
-        Outputer.innerHTML += Dmk.uname + " 说 " + Dmk.msg + '<hr>';
+        Outputer.innerHTML += UtilTools.Timestamp2DateStr(Dmk.timestamp) + " [" + Dmk.fans_medal_name + "] " + Dmk.uname + " 说 " + Dmk.msg + '<hr>';
     }
 
     // 收到新礼物后会触发下面的 BiliBili_PlayWithMe.NewGifts 方法，在这里写你自己的JS代码
