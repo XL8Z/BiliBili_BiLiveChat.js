@@ -281,13 +281,13 @@ class BiliBili_WEBSocket extends WebSocket {
                         // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.NewGuard() 方法
                         switch (JSONObj.data.guard_level) {
                             case 3:
-                                JSONObj.data.guard_name = "总督"
+                                JSONObj.data.guard_name = "舰长";
                                 break;
                             case 2:
-                                JSONObj.data.guard_name = "提督"
+                                JSONObj.data.guard_name = "提督";
                                 break;
                             case 1:
-                                JSONObj.data.guard_name = "舰长"
+                                JSONObj.data.guard_name = "总督";
                                 break;
                         }
                         BiliBili_PlayWithMe.NewGuard(JSONObj.data);
@@ -303,7 +303,8 @@ class BiliBili_WEBSocket extends WebSocket {
                         BiliBili_PlayWithMe.SCDel(JSONObj.data);
                         break;
                 }
-                window.document.getElementById('div_BiLiveChatOutputer').scrollTop = 999999;
+
+
                 break;
             case 8:
                 BiliBili_PlayWithMe.NewSystemNotice("连上了喵！")

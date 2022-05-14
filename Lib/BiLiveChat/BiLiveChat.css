@@ -1,13 +1,20 @@
+html,
+body {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    width: 100vw;
+    width: -webkit-fill-available;
     height: -webkit-fill-available;
 }
 
-.div_BiLiveChatOutputer {
+#div_BiLiveChatOutputer {
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
 }
 
-.div_BiLiveChatOutputer::-webkit-scrollbar {
-    width: 2px;
+#div_BiLiveChatOutputer::-webkit-scrollbar {
+    width: 0;
 }

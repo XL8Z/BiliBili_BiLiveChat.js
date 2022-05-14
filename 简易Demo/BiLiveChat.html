@@ -16,46 +16,147 @@
     <!-- https://github.com/LinusU/decode-utf8 -->
     <script src="./../Lib/LinusU/decode-utf8.js" type="text/javascript"></script>
     <!-- https://gitee.com/XL8Z/BiliBili_PlayWithMe_JS -->
-    <script src="./../Lib/BiliBili_PlayWithMe_JSONP.js" type="text/javascript"></script>
+    <script src="./../Lib/BiLiveChat/BiliBili_PlayWithMe_JSONP.js" type="text/javascript"></script>
 
+    <script src="./../Lib/BiLiveChat/BiLiveChat.js" type="text/javascript"></script>
+    <link href="./../Lib/BiLiveChat/BiLiveChat.css" rel="stylesheet">
 
+    <style>
+        html,
+        body {
+            background-color: #111;
+            color: #5D5;
+        }
+        
+        hr {
+            width: 100%;
+            border-color: #5D5;
+        }
+        
+        #div_BiLiveChatOutputer {
+            padding: 0 .5rem;
+        }
+        
+        #div_BiLiveChatOutputer>.div_OutputerItem {
+            margin: .5rem;
+            padding: 1rem .5rem;
+            border: .2rem #5D5 dashed;
+            border-spacing: 5px;
+            color: #5D5;
+        }
+        
+        #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"] {
+            border-color: #5D5;
+        }
+        /* 弹幕样式 */
+        
+        #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='1'] {
+            border-color: #7E7;
+        }
+        /* 新粉丝样式 */
+        
+        #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='2'] {
+            border-color: #7E7;
+            font-weight: 700;
+        }
+        /* 老粉丝样式 */
+        
+        #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='3'] {
+            border-color: #9F9;
+            font-weight: 700;
+        }
+        /* 核心粉丝样式 */
+        
+        #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='4'] {
+            border-color: #5D5;
+            font-weight: 700;
+        }
+        /* 舰长和骨灰级粉丝样式 */
+        
+        #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='1'] {
+            border-color: #0076dd;
+            color: #0076dd;
+            font-weight: 700;
+        }
+        /* 总督样式 */
+        
+        #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='2'] {
+            border-color: #2e88d6;
+            color: #2e88d6;
+            font-weight: 700;
+        }
+        /* 提督样式 */
+        
+        #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='3'] {
+            border-color: #5fb4ff;
+            color: #5fb4ff;
+            font-weight: 700;
+        }
+        /* 舰长样式 */
+        
+        #div_BiLiveChatOutputer>.div_OutputerItem[type="Gifts"] {
+            border-color: #ff7575;
+            color: #ff7575;
+        }
+        /* 礼物样式 */
+        
+        #div_BiLiveChatOutputer>.div_OutputerItem[type="Guard"] {
+            border-color: #5fb4ff;
+            color: #FFF;
+            background-color: #a4d5ff;
+        }
+        /* 上舰样式 */
+        
+        #div_BiLiveChatOutputer>.div_OutputerItem[type="SuperChat"] {
+            border-color: #ffa42d;
+        }
+        /* SC样式 */
+    </style>
 </head>
 
 <body>
-    <div id="div_Main">
-        <div id="div_Outputer">
-            <h1>你已经进入了测试页面，请按 [F12] 打开调试工具</h1>
-            <hr/>
-        </div>
+    <div id="div_BiLiveChatOutputer">
+        <h1>你已经进入了测试页面，请按 [F12] 打开调试工具</h1>
+        <hr/>
     </div>
+    <hr id="hr_BottomMark" style="border:none;" />
 </body>
+
 
 
 
 <!-- 插件设置与初始化部分，一定放在最后，不然可能出现需要的JS代码未加载的问题 -->
 <script>
     // 手动设置直播间号码
-    BiliBili_PlayWithMe.LiveRoomID = 4639581;
+    // BiliBili_PlayWithMe.LiveRoomID = 23114462;
 
-    let Outputer = window.document.getElementById('div_Outputer');
+    let Outputer = window.document.getElementById('div_BiLiveChatOutputer');
+
 
 
     // 收到新弹幕后会触发下面的 BiliBili_PlayWithMe.NewDanmaku 方法，在这里写你自己的JS代码
     // Dmk 的值如下
     let 弹幕数据样本 = {
         "fans_medal_level": 21,
-        "fans_medal_name": "官方",
-        "fans_medal_wearing_status": false,
-        "guard_level": 0,
+        "fans_medal_name": "官方", // 粉丝勋章名【注意只会显示当前直播间的粉丝团勋章】
+        "fans_medal_wearing_status": false, // 当前是否佩戴主播勋章【建议忽略，弹幕烂强制显示主播的勋章】
+        "guard_level": 0, // 对应的大航海等级 1总督 2提督 3舰长【事实上1才是舰长3是总督，官方文档里有猪逼乱写写反了，别问，问就是挂起来公开处刑】
         "msg": "你们谁扔个小心心呗",
-        "timestamp": 1650717881,
-        "uid": 3102384,
-        "uname": "猫裙少年泽远喵",
+        "time": "20:44", // 某喵自己加的字段，方便你们打时间戳
+        "timestamp": 1650717881, // UNIX时间戳
+        "uid": 3102384, // 发弹幕DD的UID
+        "uname": "猫裙少年泽远喵", // 发弹幕DD的昵称
         "uface": "http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg",
         "room_id": 4639581
     };
+
     BiliBili_PlayWithMe.NewDanmaku = (Dmk) => {
-        Outputer.innerHTML += UtilTools.Timestamp2DateStr(Dmk.timestamp) + " [" + Dmk.fans_medal_name + "] " + Dmk.uname + " 说 " + Dmk.msg + '<hr>';
+        //添加Documents
+        Outputer.innerHTML += "<div class='div_OutputerItem' type='Danmaku' medal_level_level='" + BiLiveChat.MedalLevelLevel(Dmk.fans_medal_level) + "' guard_level='" + Dmk.guard_level + "'" +
+            " > [弹幕]" + Dmk.time +
+            (Dmk.fans_medal_level > 0 ? " [" + Dmk.fans_medal_name + " - " + Dmk.fans_medal_level + "]" : " ") + Dmk.uname + " 说 " + Dmk.msg + '</div>';
+        //滚动到最底部
+        BiLiveChat.GoBottom();
     }
 
     // 收到新礼物后会触发下面的 BiliBili_PlayWithMe.NewGifts 方法，在这里写你自己的JS代码
@@ -70,8 +171,9 @@
         "price": 0, //道具金瓜子估值(1000 = 1元 = 10电池)，盲盒会显示爆出道具的价值
         "paid": false, //是否收费道具
         "fans_medal_level": 25,
-        "fans_medal_name": "官方",
-        "guard_level": 3,
+        "fans_medal_name": "喵小姐", // 粉丝勋章名【注意只会显示当前直播间的粉丝团勋章】
+        "guard_level": 3, // 对应的大航海等级 1总督 2提督 3舰长【事实上1才是舰长3是总督，官方文档里有猪逼乱写写反了，别问，问就是挂起来公开处刑】
+        "time": "20:44", // 某喵自己加的字段，方便你们打时间戳
         "timestamp": 1650717898, // UNIX时间戳
         "anchor_info": {
             "uface": "http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg",
@@ -80,67 +182,84 @@
         }
     };
     BiliBili_PlayWithMe.NewGifts = (Gft) => {
-        Outputer.innerHTML += Gft.uname + " 送了 " + Gft.gift_num + " 个 " + Gft.gift_name + '<hr>';
+        //添加Documents
+        Outputer.innerHTML += "<div class='div_OutputerItem' type='Gifts'>[礼物] " + Gft.time + " " + (Gft.fans_medal_level > 0 ? " [" + Gft.fans_medal_name + "-" + Gft.fans_medal_level + "] " : " ") + Gft.uname + " 送了 " + Gft.gift_num + " 个 " + Gft.gift_name + '</div>';
+        //滚动到最底部
+        BiLiveChat.GoBottom();
     }
 
     // 粉丝上舰后会触发下面的 BiliBili_PlayWithMe.NewGuard 方法，在这里写你自己的JS代码
     // Grd 的值如下
     let 上舰数据样本 = {
         "user_info": {
-            "uface": "http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg",
-            "uid": 3102384,
-            "uname": "猫裙少年泽远喵"
+            "uid": 1270482,
+            "uname": "Sequbre",
+            "uface": "http://i0.hdslb.com/bfs/face/061e978938b8a60b4920fad15596657e77465170.jpg"
         },
-        "guard_level": 2, //对应的大航海等级 1总督 2提督 3舰长
+        "guard_level": 2, // 对应的大航海等级 1总督 2提督 3舰长【事实上1才是舰长3是总督，官方文档里有猪逼乱写写反了，别问，问就是挂起来公开处刑】
+        "guard_name": "提督", // 某喵自己加的字段，给你省一波判断
         "guard_num": 1,
-        "guard_unit": "月", // (个月)
-        "fans_medal_level": 24, //粉丝勋章等级
-        "fans_medal_name": "官方", //粉丝勋章名
-        "fans_medal_wearing_status": true, //当前佩戴的粉丝勋章佩戴状态
+        "guard_unit": "月",
+        "time": "11:46", // 某喵自己加的字段，方便你们打时间戳
+        "timestamp": 1652413567, // UNIX时间戳
+        "fans_medal_level": 24, // 粉丝勋章等级
+        "fans_medal_name": "官方", // 粉丝勋章名【注意只会显示当前直播间的粉丝团勋章】
+        "fans_medal_wearing_status": true, // 当前佩戴的粉丝勋章佩戴状态
+        "msg_id": "982ce571-5242-4b73-a82e-3087a958be7b", // 随机UUID，防止数据错误导致一条信息被发送多次
         "room_id": 4639581
     };
     BiliBili_PlayWithMe.NewGuard = (Grd) => {
-        Outputer.innerHTML += Grd.user_info.uname + " 送了 " + Grd.guard_num + " 个 " + Grd.gift_name + '<hr>';
+        //添加Documents
+        Outputer.innerHTML += "<div class='div_OutputerItem' type='Guard'>[上舰] " + Grd.time + " " + (Grd.fans_medal_level > 0 ? " [" + Grd.fans_medal_name + "-" + Grd.fans_medal_level + "] " : " ") + Grd.user_info.uname + " 上了 " + Grd.guard_num + " 个" + Grd.guard_unit + "的 " + Grd.guard_name + '</div>';
+        //滚动到最底部
+        BiLiveChat.GoBottom();
     }
 
-    // 收到新礼物后会触发下面的 BiliBili_PlayWithMe.NewGifts 方法，在这里写你自己的JS代码
-    // Gft 的值如下
+
+    // 老板打SC后会触发下面的 BiliBili_PlayWithMe.NewSC 方法，在这里写你自己的JS代码
+    // SC 的值如下
     let SC数据样本 = {
-        "room_id": 4639581, //直播间id
-        "uid": 3102384, //购买用户UID
-        "uname": "猫裙少年泽远喵", //购买的用户昵称
-        "uface": "http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg", //购买用户头像
-        "message_id": 114514, //留言id(风控场景下撤回留言需要)
-        "message": "SC打钱喵", //留言内容
-        "rmb": 450, //支付金额(元)
-        "timestamp": 1652303610, //赠送时间
-        "start_time": 1652303612, //生效开始时间
-        "end_time": 1652303672, //生效结束时间
-        "guard_level": 2, //对应房间大航海登记    (新增) 
-        "fans_medal_level": 26, //对应房间勋章信息  (新增) 
-        "fans_medal_name": "官方", //对应房间勋章名字  (新增) 
-        "fans_medal_wearing_status": true //当前佩戴的粉丝勋章佩戴状态   (新增)
+        "guard_level": 0,
+        "uid": 1270482,
+        "uname": "Sequbre",
+        "uface": "http://i0.hdslb.com/bfs/face/061e978938b8a60b4920fad15596657e77465170.jpg",
+        "message_id": 3992851, // SC 的 ID，撤回用
+        "message": "进行一个鱼的摸",
+        "rmb": 30,
+        "time": "11:46", //某喵自己加的字段，方便你们打时间戳
+        "timestamp": 1652413567, // UNIX时间戳
+        "start_time": 1652413567, // SC开始时间
+        "end_time": 1652413627, // SC过期事件
+        "fans_medal_level": 0,
+        "fans_medal_name": "官方", // 粉丝勋章名【注意只会显示当前直播间的粉丝团勋章】
+        "fans_medal_wearing_status": true, //当前佩戴的粉丝勋章佩戴状态
+        "msg_id": "968e07ea-49e6-478c-867e-b721ccbd0d62",
+        "room_id": 4639581
     };
     BiliBili_PlayWithMe.NewSC = (SC) => {
-        Outputer.innerHTML += SC.uname + " 送了 " + SC.gift_num + " 个 " + SC.gift_name + '<hr>';
+        //添加Documents
+        Outputer.innerHTML +=
+            "<div class='div_OutputerItem' type='SuperChat'>[SC] " + SC.time + " " +
+            (SC.fans_medal_level > 0 ? " [" + SC.fans_medal_name + "-" + SC.fans_medal_level + "] " : " ") +
+            SC.uname + " 发了一条 " + SC.rmb + " 块的SC：" + SC.message + '</div>';
+        //滚动到最底部
+        BiLiveChat.GoBottom();
     }
 
 
-    // 收到新礼物后会触发下面的 BiliBili_PlayWithMe.NewGifts 方法，在这里写你自己的JS代码
-    // Gft 的值如下
-    let SC撤回 = {
-        "room_id": 4639581, //直播间id
-        "message_ids": [114, 514], // 留言id
-    };
-    BiliBili_PlayWithMe.SCDel = (SC) => {
-        Outputer.innerHTML += Gft.uname + " 送了 " + Gft.gift_num + " 个 " + Gft.gift_name + '<hr>';
-    }
+
 
     // 初始化PlayWithMe.js
     let BiliPWM = new BiliBili_PlayWithMe();
     // 由某喵的代签服务器向B站申请进行WEBSocket长连接，成功了会自动连入
     BiliPWM.PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP();
     // 执行到这里没问题的话，有弹幕就会自动调用你的代码了
+
+    //测试样本
+    // BiliBili_PlayWithMe.NewDanmaku(弹幕数据样本)
+    // BiliBili_PlayWithMe.NewGifts(礼物数据样本)
+    // BiliBili_PlayWithMe.NewGuard(上舰数据样本)
+    // BiliBili_PlayWithMe.NewSC(SC数据样本)
 </script>
 
 </html>
