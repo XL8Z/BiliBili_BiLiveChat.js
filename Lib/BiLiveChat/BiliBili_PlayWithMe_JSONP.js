@@ -3,7 +3,40 @@
  * https://gitee.com/XL8Z/BiliBili_PlayWithMe_JS
  */
 class BiliBili_PlayWithMe {
-    constructor() {}
+    constructor() {
+        let URLParam = window.location.search.substring(1).split('&');
+        URLParam.forEach(str => {
+            let KAndV = str.split('=');
+            if (KAndV.length == 2) {
+                switch (KAndV[0].toUpperCase()) {
+                    case "ACSKEY":
+                        BiliBili_PlayWithMe.Authorizer.DeveloperAccessKey = KAndV[1];
+                        console.log("捕获到网址参数DeveloperAccessKey" + KAndV[1]);
+                        break;
+                    case "ACSECRET":
+                        BiliBili_PlayWithMe.Authorizer.DeveloperAccessSecret = KAndV[1];
+                        console.log("捕获到网址参数DeveloperAccessSecret" + KAndV[1]);
+                        break;
+                    case "ROOMID":
+                        BiliBili_PlayWithMe.LiveRoomID = KAndV[1];
+                        console.log("捕获到网址参数LiveRoomID" + KAndV[1]);
+                        break;
+                    case "MID":
+                        BiliBili_PlayWithMe.MID = KAndV[1];
+                        console.log("捕获到网址参数MID" + KAndV[1]);
+                        break;
+                    case "TIMESTAMP":
+                        BiliBili_PlayWithMe.Param_Timestamp = KAndV[1];
+                        console.log("捕获到网址参数Param_Timestamp" + KAndV[1]);
+                        break;
+                    case "SIGN":
+                        BiliBili_PlayWithMe.Param_Sign = KAndV[1];
+                        console.log("捕获到网址参数Sign" + KAndV[1]);
+                        break;
+                }
+            }
+        })
+    }
 
     static WS = null;
     static AppID = 0;
@@ -44,13 +77,15 @@ class BiliBili_PlayWithMe {
     }
 
     static NewSystemNotice(Str) {
+        let T = new Date();
         BiliBili_PlayWithMe.NewDanmaku({
             "fans_medal_level": 21,
             "fans_medal_name": "官方",
             "fans_medal_wearing_status": true,
-            "guard_level": 0,
+            "guard_level": 2,
             "msg": Str,
-            "timestamp": 1650717881,
+            "timestamp": T.getTime() / 1000,
+            "time": (T.getHours() > 9 ? T.getHours() : '0' + T.getHours()) + ':' + (T.getMinutes() > 9 ? T.getMinutes() : '0' + T.getMinutes()),
             "uid": 3102384,
             "uname": "猫裙少年泽远喵",
             "uface": "http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg",
@@ -117,7 +152,7 @@ class BiliBili_WEBSocket extends WebSocket {
         super("ws://broadcastlv.chat.bilibili.com:2244/sub")
         this.onopen = evt => {
             this.Login(LoginAuthStr);
-            // 握手完毕后，先丢一个心跳包过去
+            // 握手完毕后，先丢一个心跳包过去探路
             // 【你懂什么，这也是握手的一部分.gif】
             this.Heartbeat();
             // 设置自动定时发送心跳包
@@ -139,7 +174,7 @@ class BiliBili_WEBSocket extends WebSocket {
         }
 
         this.onclose = (evt) => {
-            Parent.Rec
+            Parent.PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP()
         }
     }
 
@@ -220,11 +255,21 @@ class BiliBili_WEBSocket extends WebSocket {
                 let JSONStr = decodeUtf8(Data.slice(16)).trim();
                 console.log("[开放平台长链接]解析到服务器的新消息\n" + JSONStr);
                 let JSONObj = JSON.parse(JSONStr);
+                let DateTime = "";
+                if (typeof(JSONObj.data.timestamp) == Number)
+                    DateTime = UtilTools.Timestamp2DateObj(JSONObj.data.timestamp);
+                else {
+                    DateTime = new Date();
+                    JSONObj.data.timestamp = DateTime.getTime / 1000;
+                }
+                JSONObj.data.time = (DateTime.getHours() > 9 ? DateTime.getHours() : '0' + DateTime.getHours()) + ':' + (DateTime.getMinutes() > 9 ? DateTime.getMinutes() : '0' + DateTime.getMinutes());
                 switch (JSONObj.cmd) {
                     case "LIVE_OPEN_PLATFORM_DM":
                         // 当标识为 LIVE_OPEN_PLATFORM_DM
                         // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.NewDanmaku() 方法
-                        BiliBili_PlayWithMe.NewDanmaku(JSONObj.data);
+                        if (JSONObj.data.msg != "老板大气！点点红包抽礼物！") {
+                            BiliBili_PlayWithMe.NewDanmaku(JSONObj.data);
+                        }
                         break;
                     case "LIVE_OPEN_PLATFORM_SEND_GIFT":
                         // 当标识为 LIVE_OPEN_PLATFORM_SEND_GIFT
@@ -234,6 +279,17 @@ class BiliBili_WEBSocket extends WebSocket {
                     case "LIVE_OPEN_PLATFORM_GUARD":
                         // 当标识为 LIVE_OPEN_PLATFORM_GUARD
                         // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.NewGuard() 方法
+                        switch (JSONObj.data.guard_level) {
+                            case 3:
+                                JSONObj.data.guard_name = "总督"
+                                break;
+                            case 2:
+                                JSONObj.data.guard_name = "提督"
+                                break;
+                            case 1:
+                                JSONObj.data.guard_name = "舰长"
+                                break;
+                        }
                         BiliBili_PlayWithMe.NewGuard(JSONObj.data);
                         break;
                     case "LIVE_OPEN_PLATFORM_SUPER_CHAT":
@@ -247,6 +303,7 @@ class BiliBili_WEBSocket extends WebSocket {
                         BiliBili_PlayWithMe.SCDel(JSONObj.data);
                         break;
                 }
+                window.document.getElementById('div_BiLiveChatOutputer').scrollTop = 999999;
                 break;
             case 8:
                 BiliBili_PlayWithMe.NewSystemNotice("连上了喵！")

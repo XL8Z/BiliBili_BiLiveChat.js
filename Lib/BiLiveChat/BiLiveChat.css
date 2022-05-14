@@ -1,0 +1,13 @@
+body {
+    margin: 0;
+    width: 100vw;
+    height: -webkit-fill-available;
+}
+
+.div_BiLiveChatOutputer {
+    overflow-y: scroll;
+}
+
+.div_BiLiveChatOutputer::-webkit-scrollbar {
+    width: 2px;
+}
