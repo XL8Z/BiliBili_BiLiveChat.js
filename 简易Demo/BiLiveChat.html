@@ -153,8 +153,8 @@
     BiliBili_PlayWithMe.NewDanmaku = (Dmk) => {
         //添加Documents
         Outputer.innerHTML += "<div class='div_OutputerItem' type='Danmaku' medal_level_level='" + BiLiveChat.MedalLevelLevel(Dmk.fans_medal_level) + "' guard_level='" + Dmk.guard_level + "'" +
-            " > [弹幕]" + Dmk.time +
-            (Dmk.fans_medal_level > 0 ? " [" + Dmk.fans_medal_name + " - " + Dmk.fans_medal_level + "]" : " ") + Dmk.uname + " 说 " + Dmk.msg + '</div>';
+            " > [弹幕] " + Dmk.time +
+            (Dmk.fans_medal_level > 0 ? " [" + Dmk.fans_medal_name + " - " + Dmk.fans_medal_level + "] " : " ") + Dmk.uname + " 说 " + Dmk.msg + '</div>';
         //滚动到最底部
         BiLiveChat.GoBottom();
     }
