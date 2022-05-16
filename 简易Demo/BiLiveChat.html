@@ -71,28 +71,14 @@
             border-color: #5D5;
             font-weight: 700;
         }
-        /* 舰长和骨灰级粉丝样式 */
+        /* 骨灰级粉丝样式 */
         
-        #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='1'] {
-            border-color: #0076dd;
-            color: #0076dd;
-            font-weight: 700;
-        }
-        /* 总督样式 */
-        
-        #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='2'] {
-            border-color: #2e88d6;
-            color: #2e88d6;
-            font-weight: 700;
-        }
-        /* 提督样式 */
-        
-        #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='3'] {
+        #div_BiLiveChatOutputer>.div_OutputerItem:not([guard_level='0']) {
             border-color: #5fb4ff;
             color: #5fb4ff;
             font-weight: 700;
         }
-        /* 舰长样式 */
+        /* 舰队样式，注意这里用CSS的冷门特性“not” */
         
         #div_BiLiveChatOutputer>.div_OutputerItem[type="Gifts"] {
             border-color: #ff7575;
@@ -139,7 +125,7 @@
     let 弹幕数据样本 = {
         "fans_medal_level": 21,
         "fans_medal_name": "官方", // 粉丝勋章名【注意只会显示当前直播间的粉丝团勋章】
-        "fans_medal_wearing_status": false, // 当前是否佩戴主播勋章【建议忽略，弹幕烂强制显示主播的勋章】
+        "fans_medal_wearing_status": false, // 当前是否佩戴主播勋章【建议忽略，强制显示该主播的勋章】
         "guard_level": 0, // 对应的大航海等级 1总督 2提督 3舰长
         "msg": "你们谁扔个小心心呗",
         "time": "20:44", // 某喵自己加的字段，方便你们打时间戳
