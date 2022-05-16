@@ -11,17 +11,17 @@ class BiLiveChat {
      */
     static MedalLevelLevel(FansMedalLevel) {
         FansMedalLevel = parseInt(FansMedalLevel);
-
         for (let index = 0; index < BiLiveChat.Threshold.length; index++) {
             if (FansMedalLevel < BiLiveChat.Threshold[index])
                 return index;
         }
+        return BiLiveChat.Threshold.length;
     }
 
     /**
      * 滚动到最底部
      */
     static GoBottom() {
-        document.getElementById("hr_BottomMark").scrollIntoView();
+        document.getElementById("hr_BottomMark").scrollIntoView(false);
     }
 }
