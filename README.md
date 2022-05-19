@@ -44,12 +44,10 @@ BiliBili_PlayWithMe.NewDanmaku = (Dmk) => {
 8.  测试效果，无问题后交付使用
 
 
-
-
-
-### 引用与鸣谢
+## 引用与鸣谢
 - LinusU：decode-utf8.js【用于WEBSocket数据解码】
 - 落霞孤鹜：悠哉体中文版【用于完整Demo】
+- Sequbre：B站运营提供对接支持
 
 
 ## 二次开发与使用协议
