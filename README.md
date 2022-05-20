@@ -18,9 +18,9 @@ Coding半死不活，开源功能实际上基本屏蔽了，只能拿来当私�
 ```
 BiliBili_PlayWithMe.LiveRoomID = 4639581;
 ```
-```
 5.  在[BiLiveChat\你的项目\BiLiveChat.html]的[div_BiLiveChatOutputer]里做静态的前端代码样式，如：  
 ```
+
 <div class="div_OutputerItem" type="Danmaku" medal_level_level="4" guard_level="2">
     <span class="Time">04:35</span>
     <img class="Avatar" src="http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg@64w_64h" '="">
