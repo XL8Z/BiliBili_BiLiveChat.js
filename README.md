@@ -18,6 +18,7 @@ Coding半死不活，开源功能实际上基本屏蔽了，只能拿来当私�
 ```
 BiliBili_PlayWithMe.LiveRoomID = 4639581;
 ```
+```
 5.  在[BiLiveChat\你的项目\BiLiveChat.html]的[div_BiLiveChatOutputer]里做静态的前端代码样式，如：  
 ```
 <div class="div_OutputerItem" type="Danmaku" medal_level_level="4" guard_level="2">
@@ -29,7 +30,37 @@ BiliBili_PlayWithMe.LiveRoomID = 4639581;
 </div>
 ```
 【可以使用[Ctrl]+[F]快速定位】【如果使用默认HTML模板，直接单改CSS也行】  
-6.  在[BiLiveChat\你的项目\CustomStyle.css]里编写CSS样式，调试到正确的显示效果
+6.  在[BiLiveChat\你的项目\CustomStyle.css]里编写CSS样式，调试到正确的显示效果  
+```
+CSS选择器参考如下
+
+:root
+变量字段
+
+#div_BiLiveChatOutputer
+主要输出区域
+
+#div_BiLiveChatOutputer>.div_OutputerItem
+一个独立的内容【弹幕、礼物、上舰】
+
+#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"]
+弹幕内容
+
+#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='0']
+粉丝团等级区间范围为0的内容
+【当粉丝团等级分段设为[3,10,16,20]时，18级牌子的粉丝团等级区间为3】
+【详见MedalLevelLevel说明】
+
+#div_BiLiveChatOutputer>.div_OutputerItem[guard_level='3']
+舰长发出的内容
+
+选择器可以叠加，如：
+#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][guard_level='2']
+为提督的弹幕内容
+
+#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"]:not([guard_level='0'])
+所有舰队【舰长、提督、总督】的弹幕内容
+```
 7.  在[BiLiveChat\你的项目\BiLiveChat.html]里重写替换原有绑定事件，按照你的模板插入HTML代码，如：  
 ```
 BiliBili_PlayWithMe.NewDanmaku = (Dmk) => {
