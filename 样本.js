@@ -1,4 +1,4 @@
-{
+var 样本 = {
     "弹幕": {
         "data": {
             "fans_medal_level": 21,
