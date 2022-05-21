@@ -43,17 +43,31 @@ class BiliBili_PlayWithMe {
     static LiveRoomID = 0;
     static MID = 0;
 
+    static GiftCombine_Enable = true;
+    static GiftCombine_Map = new Map();
+    static GiftCombine_Countdown = 5;
+
+    static GiftCombine_Timer = setInterval(() => {
+        console.log("GiftTimerTick");
+        BiliBili_PlayWithMe.GiftCombine_Map.forEach(
+            (v, k, map) => {
+                v.Tick();
+            });
+    }, 1000);
+
+
+
     /**
      * 探测当前插件运行环境，是否为直播姬
      * @returns Boolean值的判定结果
      */
-    static is_LiveHime() { return window.location.href.includes("livehime_ts") };
+    static is_LiveHime() { return window.location.href.includes("livehime_ts"); };
 
     /**
      * 探测当前插件运行环境，是否为OBS
      * @returns Boolean值的判定结果
      */
-    static is_OBS() { return navigator.userAgent.includes("OBS") };
+    static is_OBS() { return navigator.userAgent.includes("OBS"); };
 
 
     PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP() {
@@ -274,7 +288,21 @@ class BiliBili_WEBSocket extends WebSocket {
                     case "LIVE_OPEN_PLATFORM_SEND_GIFT":
                         // 当标识为 LIVE_OPEN_PLATFORM_SEND_GIFT
                         // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.NewGifts() 方法
-                        BiliBili_PlayWithMe.NewGifts(JSONObj.data);
+
+                        // 检测礼物合并开关
+                        if (BiliBili_PlayWithMe.GiftCombine_Enable) {
+                            // 制作“UID-礼物ID”格式的合并参照ID
+                            let ID = CombinedGifts.MakeID(JSONObj.data);
+                            // 根据合并参照ID查询正在进行的礼物合并项
+                            if (!(BiliBili_PlayWithMe.GiftCombine_Map.has(ID))) {
+                                // 如果没有，创建一个新的礼物合并项
+                                BiliBili_PlayWithMe.GiftCombine_Map.set(ID, new CombinedGifts(JSONObj.data));
+                            }
+                            // 获取新的或者旧的礼物合并项并让其加入新的数量
+                            BiliBili_PlayWithMe.GiftCombine_Map.get(ID).Add(JSONObj.data.gift_num);
+                        }
+                        // 如果不使用礼物合并则直接输出
+                        else { BiliBili_PlayWithMe.NewGifts(JSONObj.data); }
                         break;
                     case "LIVE_OPEN_PLATFORM_GUARD":
                         // 当标识为 LIVE_OPEN_PLATFORM_GUARD
@@ -362,4 +390,57 @@ class UtilTools {
     static Timestamp2DateStr(Timestamp) {
         return UtilTools.Timestamp2DateObj(Timestamp).toLocaleString();
     }
+}
+
+class CombinedGifts {
+
+    // 新的礼物数量
+    gift_num = 0;
+    GftEvt = {};
+    TimerCount = 0;
+
+    constructor(Gft) {
+        // 拷贝基础数据
+        this.GftEvt = Gft;
+        this.uid = Gft.uid;
+        this.uname = Gft.uname;
+        this.uface = Gft.uface;
+        this.gift_id = Gft.gift_id;
+        this.gift_name = Gft.gift_name;
+        this.price = Gft.price;
+        this.paid = Gft.paid;
+        this.fans_medal_level = Gft.fans_medal_level;
+        this.fans_medal_name = Gft.fans_medal_name;
+        this.guard_level = Gft.guard_level;
+        this.timestamp = Gft.timestamp;
+        this.time = Gft.time;
+        this.anchor_info = Gft.anchor_info;
+    }
+
+    // 追加
+    Add(Num) {
+        this.gift_num += Num;
+        this.TimerCount = 0;
+    }
+
+    Tick() {
+        this.TimerCount += 1;
+        if (this.TimerCount > BiliBili_PlayWithMe.GiftCombine_Countdown)
+            this.Execute();
+    }
+
+    static MakeID(Gft) {
+        return Gft.uid + '-' + Gft.gift_id;
+    }
+
+    Execute() {
+        // 触发事件
+        BiliBili_PlayWithMe.NewGifts(this);
+        // 移除Map注销自身
+        BiliBili_PlayWithMe.GiftCombine_Map.delete(CombinedGifts.MakeID(this));
+    }
+
+
+
+
 }
