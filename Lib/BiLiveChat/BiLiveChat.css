@@ -1,20 +1,22 @@
 html,
 body {
+    /* 平滑滚动 */
     scroll-behavior: smooth;
-}
-
-body {
     margin: 0;
+    /* 充满整个浏览器 */
     width: -webkit-fill-available;
     height: -webkit-fill-available;
 }
 
 #div_BiLiveChatOutputer {
+    /* 允许弹幕板垂直滚动 */
     overflow-y: scroll;
+    /* 垂直展开排布 */
     display: flex;
     flex-direction: column;
 }
 
 #div_BiLiveChatOutputer::-webkit-scrollbar {
+    /* 把弹幕板的锤子滚动条宽度设为0【不可见】 */
     width: 0;
 }
