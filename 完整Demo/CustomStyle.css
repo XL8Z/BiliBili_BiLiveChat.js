@@ -2,7 +2,7 @@
 
 :root {
     /* 其他设置 */
-    --基础字号: 18px;
+    --基础字号: 22px;
     /* 主题颜色 */
     --默认文字颜色: #FFF;
     --默认主题颜色: #BBB;
@@ -40,11 +40,13 @@
 
 html,
 body {
-    font-size: var(基础字号);
+    font-size: var(--基础字号);
 }
 
 #div_BiLiveChatOutputer {
-    padding: 0 .5rem;
+    padding: .5rem;
+    background: #FFF9;
+    margin: .5rem;
 }
 
 #div_BiLiveChatOutputer>.div_OutputerItem {
@@ -55,6 +57,7 @@ body {
     flex-wrap: wrap;
     align-items: center;
     border: .2rem dashed;
+    font-size: var(--基础字号);
     border-color: var(--默认主题颜色);
     border-spacing: 5px;
     color: var(--默认文字颜色);
@@ -64,6 +67,7 @@ body {
 
 #div_BiLiveChatOutputer>.div_OutputerItem>* {
     margin: 1em .5em;
+    font-size: var(基础字号);
 }
 
 
@@ -73,7 +77,7 @@ body {
     text-shadow: none;
     font-style: normal;
     display: inline-flex;
-    margin: 0 .5em;
+    margin: 0 .5em 0 .2em;
 }
 
 #div_BiLiveChatOutputer>.div_OutputerItem>i.FansMedal::before {
@@ -192,7 +196,7 @@ body {
 
 #div_BiLiveChatOutputer>.div_OutputerItem>img.Avatar {
     border-radius: 50%;
-    margin: 0 .5em;
+    margin: .5em;
     width: 3em;
     border: solid .2em;
     border-color: var(--默认主题颜色);
@@ -391,13 +395,6 @@ body {
 #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='2'] {
     border-color: var(--默认主题颜色);
     font-weight: 700;
-}
-
-#div_BiLiveChatOutputer>.div_OutputerItem>i.FansMedal {
-    text-shadow: none;
-    font-style: normal;
-    display: inline-flex;
-    margin: 0 1em;
 }
 
 
