@@ -3,7 +3,49 @@
  * https://gitee.com/XL8Z/BiliBili_PlayWithMe_JS
  */
 class BiliBili_PlayWithMe {
-    constructor() {
+
+    /**
+     * 默认WEBSocket连接，一般会有一个BiliBili_WEBSocket对象，自动配置，不需要管
+     */
+    static WS = null;
+
+    /**
+     * 使用的AppID
+     * - BiliBili直播开放平台的项目ID
+     */
+    static AppID = 0;
+
+    /**
+     * 直播间ID
+     * - 非常重要
+     */
+    static LiveRoomID = 0;
+
+    /**
+     * 主播主站UID
+     * - 非必须
+     */
+    static MID = 0;
+
+    /**
+     *  默认启动礼物连击合并
+     */
+    static GiftCombine_Enable = true;
+
+    /**
+     * 制作一个Map用来登记正在统计的礼物连击
+     */
+    static GiftCombine_Map = new Map();
+
+    /**
+     * 默认超过5秒没有再送礼物视为连击结束
+     */
+    static GiftCombine_Countdown = 5;
+
+    /**
+     * 初始化方法
+     */
+    static Init() {
         let URLParam = window.location.search.substring(1).split('&');
         URLParam.forEach(str => {
             let KAndV = str.split('=');
@@ -38,15 +80,9 @@ class BiliBili_PlayWithMe {
         })
     }
 
-    static WS = null;
-    static AppID = 0;
-    static LiveRoomID = 0;
-    static MID = 0;
-
-    static GiftCombine_Enable = true;
-    static GiftCombine_Map = new Map();
-    static GiftCombine_Countdown = 5;
-
+    /**
+     * 每秒刷新一次每个连击的计数器，触发一次每个连击的Tick事件
+     */
     static GiftCombine_Timer = setInterval(() => {
         console.log("GiftTimerTick");
         BiliBili_PlayWithMe.GiftCombine_Map.forEach(
@@ -70,8 +106,10 @@ class BiliBili_PlayWithMe {
     static is_OBS() { return navigator.userAgent.includes("OBS"); };
 
 
+    /**
+     * 使用JSONP方式获取签名授权进行连接
+     */
     PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP() {
-        let ElmtsStr = '<script id="scpt_BiliBili_PlayWithMe_JSONP" src="http://localhost:9000/BiliFanFan/BiLiveChat/Proxy/PlgnSrtAndWEBSocket?RoomID=' + BiliBili_PlayWithMe.LiveRoomID.toString() + '" type="text/javascript"></script>';
         let Elmts = document.createElement('script');
         Elmts.src = "http://BiLive.XL7Z.net/BiliFanFan/BiLiveChat/Proxy/PlgnSrtAndWEBSocket?RoomID=" + BiliBili_PlayWithMe.LiveRoomID.toString();
 
@@ -90,6 +128,10 @@ class BiliBili_PlayWithMe {
         }
     }
 
+    /**
+     * 内部功能，以泽远喵的身份去发一条假弹幕，用于显示脚本的运行状态
+     * @param {String} Str 
+     */
     static NewSystemNotice(Str) {
         let T = new Date();
         BiliBili_PlayWithMe.NewDanmaku({
@@ -107,28 +149,49 @@ class BiliBili_PlayWithMe {
         });
     }
 
-    static NewDanmaku() {
-
-    }
-
-    static NewGifts() {
-
-    }
-
-    static NewGuard() {
-
-    }
-
-    static NewSC() {
-
-    }
-
-    static SCDel() {
+    /**
+     * 新弹幕事件，需要你自己覆写
+     * @param {*} Dmk 
+     */
+    static NewDanmaku(Dmk) {
 
     }
 
     /**
-     * 
+     * 新礼物事件，需要你自己覆写
+     * - 注意有礼物连击统计功能，关闭后每次送礼都是独立条目
+     * @param {*} Gft 
+     */
+    static NewGifts(Gft) {
+
+    }
+
+    /**
+     * 上舰事件，需要你自己覆写
+     * @param {*} Grd 
+     */
+    static NewGuard(Grd) {
+
+    }
+
+    /**
+     * SC事件，需要你自己覆写
+     * @param {*} SC 
+     */
+    static NewSC(SC) {
+
+    }
+
+    /**
+     * SC撤回事件，需要你自己覆写
+     * @param {*} SCDel 
+     */
+    static SCDel(SCDel) {
+
+    }
+
+    /**
+     * 默认签名器
      */
     static Authorizer = {
         /**
@@ -156,7 +219,7 @@ class BiliBili_PlayWithMe {
 }
 
 /**
- * 
+ * 写入了解码B站协议的WEBSocket客户端
  */
 class BiliBili_WEBSocket extends WebSocket {
 
@@ -331,8 +394,6 @@ class BiliBili_WEBSocket extends WebSocket {
                         BiliBili_PlayWithMe.SCDel(JSONObj.data);
                         break;
                 }
-
-
                 break;
             case 8:
                 BiliBili_PlayWithMe.NewSystemNotice("连上了喵！")
@@ -392,11 +453,24 @@ class UtilTools {
     }
 }
 
+/**
+ * 每个连击对象的类
+ */
 class CombinedGifts {
 
-    // 新的礼物数量
+    /**
+     * 总连击礼物量
+     */
     gift_num = 0;
+
+    /**
+     * 第一个事件的所有数据
+     */
     GftEvt = {};
+
+    /**
+     * 最后一次累加到现在的秒数
+     */
     TimerCount = 0;
 
     constructor(Gft) {
@@ -417,22 +491,41 @@ class CombinedGifts {
         this.anchor_info = Gft.anchor_info;
     }
 
-    // 追加
+    /**
+     * 有新的同UID同种类礼物时触发
+     * @param {Int} Num 礼物数量
+     * - 每次触发会重置计时器
+     */
     Add(Num) {
+        // 累加计数
         this.gift_num += Num;
+        // 重置计时器
         this.TimerCount = 0;
     }
 
+    /**
+     * 每秒触发一次的Tick事件
+     */
     Tick() {
+        // 每秒计算器加一
         this.TimerCount += 1;
+        // 如果计时器累加的秒数超过阈值，判定连击结束
         if (this.TimerCount > BiliBili_PlayWithMe.GiftCombine_Countdown)
             this.Execute();
     }
 
+    /**
+     * 生成“UID-礼物ID”格式的序列ID
+     * @param  Gft 标准Gft时间的 data 部分
+     * @returns 
+     */
     static MakeID(Gft) {
         return Gft.uid + '-' + Gft.gift_id;
     }
 
+    /**
+     * 计时用完，判定连击结束，触发事件
+     */
     Execute() {
         // 触发事件
         BiliBili_PlayWithMe.NewGifts(this);

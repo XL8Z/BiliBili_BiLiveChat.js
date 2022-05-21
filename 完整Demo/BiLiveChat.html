@@ -30,9 +30,11 @@
 </head>
 
 <body>
+    <!-- 默认的输出面板，最好不要改动 -->
     <div id="div_BiLiveChatOutputer">
 
     </div>
+    <!-- ↓这玩意的存在是用来给滚动功能指路的，如果没有会导致无法正确滚动到最底部 -->
     <hr id="hr_BottomMark" style="border:none;" />
 </body>
 
@@ -43,6 +45,20 @@
 <script>
     // 手动设置直播间号码
     BiliBili_PlayWithMe.LiveRoomID = 4639581;
+
+    // 启动礼物连击合并
+    BiliBili_PlayWithMe.GiftCombine_Enable = true;
+    // 连击超时判定，默认为5，即5秒内没有再送同种礼物判定连击结束
+    BiliBili_PlayWithMe.GiftCombine_Countdown = 5;
+
+    /**
+     * 粉丝团等级阈值
+     * - 把粉丝团等级分为5个
+     * - 0到3级为零档，3到8为一档，以此类推，然后为超过12级的老粉做特效
+     * - 后面的 BiLiveChat.MedalLevelLevel(fans_medal_level) 就是在计算这玩意
+     */
+    BiLiveChat.Threshold = [3, 8, 12, 18];
+
 
     let Outputer = window.document.getElementById('div_BiLiveChatOutputer');
 
@@ -178,7 +194,7 @@
 
 
     // 初始化PlayWithMe.js
-    let BiliPWM = new BiliBili_PlayWithMe();
+    BiliBili_PlayWithMe.Init();
     // 由某喵的代签服务器向B站申请进行WEBSocket长连接，成功了会自动连入
     BiliPWM.PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP();
     // 执行到这里没问题的话，有弹幕就会自动调用你的代码了
