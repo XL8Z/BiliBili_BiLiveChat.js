@@ -2,7 +2,7 @@ class BiLiveChat {
     /**
      * 粉丝团等级阈值
      */
-    static Threshold = [3, 8, 16, 20];
+    static Threshold = [3, 8, 12, 18];
 
     /**
      * 把30个粉丝团等级简化为几个，
