@@ -5,7 +5,9 @@
 ## 功能简介
 -  通过B站官方开放平台接口接收B站直播间数据，长期有效
 -  纯前端实现，直接导入OBS或直播姬
--  完全开源，简单易懂，从弹幕和礼物事件的处理到构建HTML的Document Element，整个流程完全透明，结构清晰，可以自己自由定义
+-  完全开源，简单易懂
+-  从弹幕和礼物事件的处理到构建HTML的Document Element，整个流程结构清晰完全透明，可以自己自由定义
+-  妈宝级的注释【十年来写的最多的一次】
 ### 画饼
 - 多个礼物的连击合并功能
 - 黑白名单屏蔽功能
@@ -98,6 +100,19 @@ BiliBili_PlayWithMe.NewDanmaku = (Dmk) => {
     }
 ```
 8.  测试效果，无问题后交付使用
+
+## 注意：遇事不决，把一下文件仔细看一遍，留意注释
+- 完整Demo\BiLiveChat.html  
+【内含全部应该由你控制的HTML和JS代码，你应该全文看完】
+- 完整Demo\CustomStyle.css   
+【内含全部应该由你控制的CSS样式代码】
+- Lib\BiLiveChat\BiLiveChat.js  
+【一些通用的处理，比如滚动到底或者自动生成粉丝牌子】
+- Lib\BiLiveChat\BiLiveChat.css  
+【一些通用的样式，比如关闭主要面板的滚动条显示，或者平滑滚动特效】
+- Lib\BiLiveChat\BiliBili_PlayWithMe_JSONP.js   
+【通用的B站直播开放平台 JavaScript SDK，如果你好奇如何与B站通讯，或者作为初学者需要东西助眠，可以去看看】
+
 
 
 ## 引用与鸣谢
