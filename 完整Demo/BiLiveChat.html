@@ -47,17 +47,6 @@
     let Outputer = window.document.getElementById('div_BiLiveChatOutputer');
 
 
-    function Make_FansMedal(Name, Level) {
-
-        return "<i class = 'FansMedal' name='" + Name + "' level='" + Level + "''> </i>"
-    }
-
-    function Make_Avatar(URL) {
-        // 后缀的@64w_64h是B站图床的控制参数，表示64像素宽高，加1-3c还可以控制图像质量和压缩比，不加不压画质
-        return "<img class = 'Avatar' src='" + URL + "@64w_64h''/>"
-    }
-
-
     // 收到新弹幕后会触发下面的 BiliBili_PlayWithMe.NewDanmaku 方法，在这里写你自己的JS代码
     // Dmk 的值如下
     let 弹幕数据样本 = {
@@ -77,15 +66,22 @@
     BiliBili_PlayWithMe.NewDanmaku = (Dmk) => {
         //添加Documents
         Outputer.innerHTML +=
+            // 生成对象，指定类型为弹幕，参数放入粉丝牌子等级区间、航海等级
             "<div class='div_OutputerItem' type='Danmaku' \
             medal_level_level=" + BiLiveChat.MedalLevelLevel(Dmk.fans_medal_level) + " \
-            guard_level='" + Dmk.guard_level + "' >\
-            <span class='Time'>" + Dmk.time + "</span>" +
-            Make_Avatar(Dmk.uface) +
-            (Dmk.fans_medal_level > 0 ? Make_FansMedal(Dmk.fans_medal_name, Dmk.fans_medal_level) : " ") +
-            Dmk.uname + " ： \
-            <span class='Content'>" + Dmk.msg + "</span>\
-            </div>";
+            guard_level='" + Dmk.guard_level + "' >" +
+            // 生成右上角时间戳
+            "<span class='Time'>" + Dmk.time + "</span>" +
+            // 生成头像
+            BiLiveChat.Make_Avatar(Dmk.uface) +
+            // 生成粉丝牌
+            BiLiveChat.Make_FansMedal(Dmk.fans_medal_name, Dmk.fans_medal_level) +
+            // 生成昵称
+            "<span class='Content'>" + Dmk.uname + "</span> ： " +
+            // 生成内容
+            "<span class='Content'>" + Dmk.msg + "</span>" +
+            // 关闭DIV
+            "</div>";
         //滚动到最底部
         BiLiveChat.GoBottom();
     }
@@ -114,7 +110,8 @@
     };
     BiliBili_PlayWithMe.NewGifts = (Gft) => {
         //添加Documents
-        Outputer.innerHTML += "<div class='div_OutputerItem' type='Gifts'>[礼物] " + Gft.time + " " + (Gft.fans_medal_level > 0 ? " [" + Gft.fans_medal_name + "-" + Gft.fans_medal_level + "] " : " ") + Gft.uname + " 送了 " + Gft.gift_num + " 个 " + Gft.gift_name + '</div>';
+        Outputer.innerHTML += "<div class='div_OutputerItem' type='Gifts'>[礼物] " + Gft.time + " " +
+            (Gft.fans_medal_level > 0 ? " [" + Gft.fans_medal_name + "-" + Gft.fans_medal_level + "] " : " ") + Gft.uname + " 送了 " + Gft.gift_num + " 个 " + Gft.gift_name + '</div>';
         //滚动到最底部
         BiLiveChat.GoBottom();
     }
@@ -171,7 +168,7 @@
         //添加Documents
         Outputer.innerHTML +=
             "<div class='div_OutputerItem' type='SuperChat'>[SC] " + SC.time + " " +
-            (SC.fans_medal_level > 0 ? " [" + SC.fans_medal_name + "-" + SC.fans_medal_level + "] " : " ") +
+            Make_FansMedal(SC.fans_medal_name, SC.fans_medal_level) +
             SC.uname + " 发了一条 " + SC.rmb + " 块的SC：" + SC.message + '</div>';
         //滚动到最底部
         BiLiveChat.GoBottom();
