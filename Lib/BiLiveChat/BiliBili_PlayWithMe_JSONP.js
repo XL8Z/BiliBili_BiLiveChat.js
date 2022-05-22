@@ -84,7 +84,6 @@ class BiliBili_PlayWithMe {
      * 每秒刷新一次每个连击的计数器，触发一次每个连击的Tick事件
      */
     static GiftCombine_Timer = setInterval(() => {
-        console.log("GiftTimerTick");
         BiliBili_PlayWithMe.GiftCombine_Map.forEach(
             (v, k, map) => {
                 v.Tick();
@@ -130,7 +129,7 @@ class BiliBili_PlayWithMe {
 
     /**
      * 内部功能，以泽远喵的身份去发一条假弹幕，用于显示脚本的运行状态
-     * @param {String} Str 
+     * @param {string} Str 
      */
     static NewSystemNotice(Str) {
         let T = new Date();
@@ -216,6 +215,16 @@ class BiliBili_PlayWithMe {
         RemoteAuthorizerServer: ""
     }
 
+    /**
+     * 模拟收到B站开平长链的JSON回调
+     * @param {JSON} JSON 模拟收到的JSON
+     * - 样本在根目录下有
+     */
+    static Test(JSON) {
+        BiliBili_WEBSocket.JSONExecute(JSON);
+    }
+
+
 }
 
 /**
@@ -225,7 +234,11 @@ class BiliBili_WEBSocket extends WebSocket {
 
     Reader = null;
 
-    constructor(LoginAuthStr, Parent) {
+    /**
+     * 构造器，启动B站开放平台专用WEBSocketClient需要一个握手认证字符串
+     * @param {string} LoginAuthStr 握手认证字符串
+     */
+    constructor(LoginAuthStr) {
         super("ws://broadcastlv.chat.bilibili.com:2244/sub")
         this.onopen = evt => {
             this.Login(LoginAuthStr);
@@ -256,13 +269,14 @@ class BiliBili_WEBSocket extends WebSocket {
     }
 
     /**
-     * 
-     * @param {*} LoginAuthStr 
+     * 构建并发送握手认证包
+     * @param {string} LoginAuthStr 
      */
     Login(LoginAuthStr) {
         let Body = UtilTools.Str2Uint8Array(LoginAuthStr)
         let PackageLength = Body.length + 16;
-        console.log("预计的包长度：" + PackageLength);
+        console.log("拿到的AuthStr：" + LoginAuthStr);
+        console.log("预计的握手包长度：" + PackageLength);
         let Data = new Array(0);
         // 放入包头
         Data.push.apply(Data, [
@@ -282,7 +296,6 @@ class BiliBili_WEBSocket extends WebSocket {
         Data.push.apply(Data, Body);
         // 统一转换为Uint8Array
         Data = new Uint8Array(Data);
-
         console.log("[开放平台长链接]：准备发送握手包，内容为\n" + UtilTools.Uint8Array2HexStr(Data));
         // 调用原WEBSocket的发送方法发送握手包
         super.send(Data);
@@ -332,75 +345,83 @@ class BiliBili_WEBSocket extends WebSocket {
                 let JSONStr = decodeUtf8(Data.slice(16)).trim();
                 console.log("[开放平台长链接]解析到服务器的新消息\n" + JSONStr);
                 let JSONObj = JSON.parse(JSONStr);
-                let DateTime = "";
-                if (typeof(JSONObj.data.timestamp) == Number)
-                    DateTime = UtilTools.Timestamp2DateObj(JSONObj.data.timestamp);
-                else {
-                    DateTime = new Date();
-                    JSONObj.data.timestamp = DateTime.getTime / 1000;
-                }
-                JSONObj.data.time = (DateTime.getHours() > 9 ? DateTime.getHours() : '0' + DateTime.getHours()) + ':' + (DateTime.getMinutes() > 9 ? DateTime.getMinutes() : '0' + DateTime.getMinutes());
-                switch (JSONObj.cmd) {
-                    case "LIVE_OPEN_PLATFORM_DM":
-                        // 当标识为 LIVE_OPEN_PLATFORM_DM
-                        // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.NewDanmaku() 方法
-                        if (JSONObj.data.msg != "老板大气！点点红包抽礼物！") {
-                            BiliBili_PlayWithMe.NewDanmaku(JSONObj.data);
-                        }
-                        break;
-                    case "LIVE_OPEN_PLATFORM_SEND_GIFT":
-                        // 当标识为 LIVE_OPEN_PLATFORM_SEND_GIFT
-                        // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.NewGifts() 方法
-
-                        // 检测礼物合并开关
-                        if (BiliBili_PlayWithMe.GiftCombine_Enable) {
-                            // 制作“UID-礼物ID”格式的合并参照ID
-                            let ID = CombinedGifts.MakeID(JSONObj.data);
-                            // 根据合并参照ID查询正在进行的礼物合并项
-                            if (!(BiliBili_PlayWithMe.GiftCombine_Map.has(ID))) {
-                                // 如果没有，创建一个新的礼物合并项
-                                BiliBili_PlayWithMe.GiftCombine_Map.set(ID, new CombinedGifts(JSONObj.data));
-                            }
-                            // 获取新的或者旧的礼物合并项并让其加入新的数量
-                            BiliBili_PlayWithMe.GiftCombine_Map.get(ID).Add(JSONObj.data.gift_num);
-                        }
-                        // 如果不使用礼物合并则直接输出
-                        else { BiliBili_PlayWithMe.NewGifts(JSONObj.data); }
-                        break;
-                    case "LIVE_OPEN_PLATFORM_GUARD":
-                        // 当标识为 LIVE_OPEN_PLATFORM_GUARD
-                        // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.NewGuard() 方法
-                        switch (JSONObj.data.guard_level) {
-                            case 3:
-                                JSONObj.data.guard_name = "舰长";
-                                break;
-                            case 2:
-                                JSONObj.data.guard_name = "提督";
-                                break;
-                            case 1:
-                                JSONObj.data.guard_name = "总督";
-                                break;
-                        }
-                        BiliBili_PlayWithMe.NewGuard(JSONObj.data);
-                        break;
-                    case "LIVE_OPEN_PLATFORM_SUPER_CHAT":
-                        // 当标识为 LIVE_OPEN_PLATFORM_SUPER_CHAT
-                        // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.NewSC() 方法
-                        BiliBili_PlayWithMe.NewSC(JSONObj.data);
-                        break;
-                    case "LIVE_OPEN_PLATFORM_SUPER_CHAT_DEL":
-                        // 当标识为 LIVE_OPEN_PLATFORM_SUPER_CHAT_DEL
-                        // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.SCDel() 方法
-                        BiliBili_PlayWithMe.SCDel(JSONObj.data);
-                        break;
-                }
+                BiliBili_WEBSocket.JSONExecute(JSONObj);
                 break;
             case 8:
                 BiliBili_PlayWithMe.NewSystemNotice("连上了喵！")
                 console.log("[开放平台长链接]解析到服务器的登陆回复");
                 break;
             default:
+                console.log("[开放平台长链接]未知的数据类型");
+                break;
+        }
+    }
 
+    /**
+     * 执行B站开平长链的JSON回调
+     * @param {JSON} JSONObj 
+     */
+    static JSONExecute(JSONObj) {
+        let DateTime = "";
+        if (typeof(JSONObj.data.timestamp) == Number)
+            DateTime = UtilTools.Timestamp2DateObj(JSONObj.data.timestamp);
+        else {
+            DateTime = new Date();
+            JSONObj.data.timestamp = DateTime.getTime / 1000;
+        }
+        JSONObj.data.time = (DateTime.getHours() > 9 ? DateTime.getHours() : '0' + DateTime.getHours()) + ':' + (DateTime.getMinutes() > 9 ? DateTime.getMinutes() : '0' + DateTime.getMinutes());
+        switch (JSONObj.cmd) {
+            case "LIVE_OPEN_PLATFORM_DM":
+                // 当标识为 LIVE_OPEN_PLATFORM_DM
+                // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.NewDanmaku() 方法
+                if (JSONObj.data.msg != "老板大气！点点红包抽礼物！") {
+                    BiliBili_PlayWithMe.NewDanmaku(JSONObj.data);
+                }
+                break;
+            case "LIVE_OPEN_PLATFORM_SEND_GIFT":
+                // 当标识为 LIVE_OPEN_PLATFORM_SEND_GIFT
+                // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.NewGifts() 方法
+
+                // 检测礼物合并开关
+                if (BiliBili_PlayWithMe.GiftCombine_Enable) {
+                    // 制作“UID-礼物ID”格式的合并参照ID
+                    let ID = CombinedGifts.MakeID(JSONObj.data);
+                    // 根据合并参照ID查询正在进行的礼物合并项
+                    if (!(BiliBili_PlayWithMe.GiftCombine_Map.has(ID))) {
+                        // 如果没有，创建一个新的礼物合并项
+                        BiliBili_PlayWithMe.GiftCombine_Map.set(ID, new CombinedGifts(JSONObj.data));
+                    }
+                    // 获取新的或者旧的礼物合并项并让其加入新的数量
+                    BiliBili_PlayWithMe.GiftCombine_Map.get(ID).Add(JSONObj.data.gift_num);
+                }
+                // 如果不使用礼物合并则直接输出
+                else { BiliBili_PlayWithMe.NewGifts(JSONObj.data); }
+                break;
+            case "LIVE_OPEN_PLATFORM_GUARD":
+                // 当标识为 LIVE_OPEN_PLATFORM_GUARD
+                // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.NewGuard() 方法
+                switch (JSONObj.data.guard_level) {
+                    case 3:
+                        JSONObj.data.guard_name = "舰长";
+                        break;
+                    case 2:
+                        JSONObj.data.guard_name = "提督";
+                        break;
+                    case 1:
+                        JSONObj.data.guard_name = "总督";
+                        break;
+                }
+                BiliBili_PlayWithMe.NewGuard(JSONObj.data);
+                break;
+            case "LIVE_OPEN_PLATFORM_SUPER_CHAT":
+                // 当标识为 LIVE_OPEN_PLATFORM_SUPER_CHAT
+                // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.NewSC() 方法
+                BiliBili_PlayWithMe.NewSC(JSONObj.data);
+                break;
+            case "LIVE_OPEN_PLATFORM_SUPER_CHAT_DEL":
+                // 当标识为 LIVE_OPEN_PLATFORM_SUPER_CHAT_DEL
+                // 将 JSON 里的 data 传给 BiliBili_PlayWithMe.SCDel() 方法
+                BiliBili_PlayWithMe.SCDel(JSONObj.data);
                 break;
         }
     }
@@ -424,7 +445,7 @@ class UtilTools {
 
     /**
      * 
-     * @param {String} Str 字符串
+     * @param {string} Str 字符串
      * @returns UTF-8编码下的原始数据Uint8Array2Str
      */
     static Str2Uint8Array(Str) {
@@ -436,7 +457,7 @@ class UtilTools {
 
     /**
      * 
-     * @param {Int} Timestamp 秒级时间戳
+     * @param {number} Timestamp 秒级时间戳
      * @returns 返回 JavaScript 的 Date 对象
      */
     static Timestamp2DateObj(Timestamp) {
@@ -445,11 +466,99 @@ class UtilTools {
 
     /**
      * 
-     * @param {Int} Timestamp 秒级时间戳
+     * @param {number} Timestamp 秒级时间戳
      * @returns 返回 JavaScript 的 Date.toLocaleString()
      */
     static Timestamp2DateStr(Timestamp) {
         return UtilTools.Timestamp2DateObj(Timestamp).toLocaleString();
+    }
+
+    /**
+     * 一键测试
+     */
+    static AutoTest() {
+        setTimeout(() => BiliBili_PlayWithMe.Test(样本.弹幕), 3000);
+        setTimeout(() => BiliBili_PlayWithMe.Test(样本.礼物), 5000);
+        setTimeout(() => BiliBili_PlayWithMe.Test(样本.上舰), 7000);
+        setTimeout(() => BiliBili_PlayWithMe.Test(样本.SC), 9000);
+    }
+
+    样本 = {
+        "弹幕": {
+            "data": {
+                "fans_medal_level": 21,
+                "fans_medal_name": "官方",
+                "fans_medal_wearing_status": false,
+                "guard_level": 0,
+                "msg": "你们谁扔个小心心呗",
+                "timestamp": 1650717881,
+                "uid": 3102384,
+                "uname": "猫裙少年泽远喵",
+                "uface": "http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg",
+                "room_id": 4639581
+            },
+            "cmd": "LIVE_OPEN_PLATFORM_DM"
+        },
+        "礼物": {
+            "data": {
+                "uid": 114439178,
+                "uname": "不忘韩文初心",
+                "uface": "http://i2.hdslb.com/bfs/face/e549b18085113c6f824c0eefaf2c9d9dcaf5a1d5.jpg",
+                "gift_id": 30607,
+                "gift_name": "小心心",
+                "gift_num": 1,
+                "price": 0,
+                "paid": false,
+                "fans_medal_level": 25,
+                "fans_medal_name": "官方",
+                "guard_level": 3,
+                "timestamp": 1650717898,
+                "anchor_info": {
+                    "uface": "http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg",
+                    "uid": 3102384,
+                    "uname": "猫裙少年泽远喵"
+                }
+            },
+            "cmd": "LIVE_OPEN_PLATFORM_SEND_GIFT"
+        },
+        "上舰": {
+            "data": {
+                "user_info": {
+                    "uid": 1270482,
+                    "uname": "Sequbre",
+                    "uface": "http://i0.hdslb.com/bfs/face/061e978938b8a60b4920fad15596657e77465170.jpg"
+                },
+                "guard_level": 3,
+                "guard_num": 1,
+                "guard_unit": "月",
+                "fans_medal_level": 2,
+                "fans_medal_name": "黑喵姐",
+                "fans_medal_wearing_status": false,
+                "msg_id": "982ce571-5242-4b73-a82e-3087a958be7b",
+                "room_id": 4639581
+            },
+            "cmd": "LIVE_OPEN_PLATFORM_GUARD"
+        },
+        "SC": {
+            "data": {
+                "guard_level": 0,
+                "uid": 1270482,
+                "uname": "Sequbre",
+                "uface": "http://i0.hdslb.com/bfs/face/061e978938b8a60b4920fad15596657e77465170.jpg",
+                "message_id": 3992851,
+                "message": "进行一个鱼的摸",
+                "rmb": 30,
+                "timestamp": 1652413567,
+                "start_time": 1652413567,
+                "end_time": 1652413627,
+                "fans_medal_level": 0,
+                "fans_medal_name": "",
+                "fans_medal_wearing_status": false,
+                "msg_id": "968e07ea-49e6-478c-867e-b721ccbd0d62",
+                "room_id": 4639581
+            },
+            "cmd": "LIVE_OPEN_PLATFORM_SUPER_CHAT"
+        }
     }
 }
 
@@ -493,7 +602,7 @@ class CombinedGifts {
 
     /**
      * 有新的同UID同种类礼物时触发
-     * @param {Int} Num 礼物数量
+     * @param {number} Num 礼物数量
      * - 每次触发会重置计时器
      */
     Add(Num) {

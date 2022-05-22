@@ -1,452 +1,403 @@
-/* 定义变量便于一键修改 */
-
-:root {
-    /* 其他设置 */
-    --基础字号: 22px;
-    /* 主题颜色 */
-    --默认文字颜色: #FFF;
-    --默认主题颜色: #BBB;
-    --粉丝团新人主题颜色: #777;
-    --粉丝团老粉主题颜色: #555;
-    --粉丝团核心粉丝主题颜色: #333;
-    --粉丝团骨灰粉丝主题颜色: #222;
-    --礼物主题颜色: #F88;
-    --SC主题颜色: #FA2;
-    /* 粉丝团粉丝牌 */
-    --粉丝团新人粉丝牌: #BE9;
-    --粉丝团老粉粉丝牌: #FC9;
-    --粉丝团核心粉丝粉丝牌: #F88;
-    --粉丝团骨灰粉丝粉丝牌: #F55;
-    /* 舰队主题颜色 */
-    --舰长主题颜色: #5BF;
-    --提督主题颜色: #56f;
-    --总督主题颜色: #65F;
-}
-
-
-/* 引入自定义字体 */
-
-@font-face {
-    font-family: YouZai;
-    src: url(./Yozai-Bold.ttf);
-}
-
-
-/* 使用自定义字体 */
-
-* {
-    font-family: YouZai;
-}
-
-html,
-body {
-    font-size: var(--基础字号);
-}
-
-#div_BiLiveChatOutputer {
-    padding: .5rem;
-    background: #FFF9;
-    margin: .5rem;
-}
-
-#div_BiLiveChatOutputer>.div_OutputerItem {
-    margin: .5rem;
-    padding: .75em .5em;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    border: .2rem dashed;
-    font-size: var(--基础字号);
-    border-color: var(--默认主题颜色);
-    border-spacing: 5px;
-    color: var(--默认文字颜色);
-    text-shadow: -2px -2px var(--默认主题颜色), -2px -1px var(--默认主题颜色), -2px 0px var(--默认主题颜色), -2px 1px var(--默认主题颜色), -2px 2px var(--默认主题颜色), -1px -2px var(--默认主题颜色), -1px -1px var(--默认主题颜色), -1px 0px var(--默认主题颜色), -1px 1px var(--默认主题颜色), -1px 2px var(--默认主题颜色), 0px -2px var(--默认主题颜色), 0px -1px var(--默认主题颜色), 0px 0px var(--默认主题颜色), 0px 1px var(--默认主题颜色), 0px 2px var(--默认主题颜色), 1px -2px var(--默认主题颜色), 1px -1px var(--默认主题颜色), 1px 0px var(--默认主题颜色), 1px 1px var(--默认主题颜色), 1px 2px var(--默认主题颜色), 2px -2px var(--默认主题颜色), 2px -1px var(--默认主题颜色), 2px 0px var(--默认主题颜色), 2px 1px var(--默认主题颜色), 2px 2px var(--默认主题颜色);
-    position: relative;
-}
-
-#div_BiLiveChatOutputer>.div_OutputerItem>* {
-    margin: 1em .5em;
-    font-size: var(基础字号);
-}
-
-
-/* 粉丝团牌子 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem>i.FansMedal {
-    text-shadow: none;
-    font-style: normal;
-    display: inline-flex;
-    margin: 0 .5em 0 .2em;
-}
-
-#div_BiLiveChatOutputer>.div_OutputerItem>i.FansMedal::before {
-    content: attr(name);
-    background-color: #F88;
-    padding: .15em;
-    border-top-left-radius: .2em;
-    border-bottom-left-radius: .2em;
-    padding-left: .35em;
-    color: var(--默认文字颜色);
-    font-weight: 500;
-    line-height: 1.3em;
-    height: 1.3em;
-}
-
-#div_BiLiveChatOutputer>.div_OutputerItem>i.FansMedal::after {
-    content: attr(level);
-    padding: 0 .1em;
-    line-height: 1.3em;
-    height: 1.3em;
-    border-top-right-radius: .2em;
-    border-bottom-right-radius: .2em;
-    border: solid .15em;
-    border-color: #F88;
-    color: #F88;
-    padding-left: .15em;
-    font-weight: 700;
-}
-
-
-/* 新粉牌子 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='0']>i.FansMedal::before {
-    background-color: var(--粉丝团新人粉丝牌);
-}
-
-#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='0']>i.FansMedal::after {
-    border-color: var(--粉丝团新人粉丝牌);
-    color: var(--粉丝团新人粉丝牌);
-}
-
-
-/* 老粉牌子 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='1']>i.FansMedal::before {
-    background-color: var(--粉丝团老粉粉丝牌);
-}
-
-#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='1']>i.FansMedal::after {
-    border-color: var(--粉丝团老粉粉丝牌);
-    color: var(--粉丝团老粉粉丝牌);
-}
-
-
-/* 核心粉丝牌子 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='2']>i.FansMedal::before {
-    background-color: var(--粉丝团核心粉丝粉丝牌);
-}
-
-#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='2']>i.FansMedal::after {
-    border-color: var(--粉丝团核心粉丝粉丝牌);
-    color: var(--粉丝团核心粉丝粉丝牌);
-}
-
-
-/* 骨灰粉丝牌子 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='3']>i.FansMedal::before {
-    background-color: var(--粉丝团骨灰粉丝粉丝牌);
-}
-
-#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='3']>i.FansMedal::after {
-    border-color: var(--粉丝团骨灰粉丝粉丝牌);
-    color: var(--粉丝团骨灰粉丝粉丝牌);
-}
-
-
-/* 舰长牌子 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[guard_level='3']>i.FansMedal::before {
-    background-color: var(--舰长主题颜色);
-}
-
-#div_BiLiveChatOutputer>.div_OutputerItem[guard_level='3']>i.FansMedal::after {
-    border-color: var(--舰长主题颜色);
-    color: var(--舰长主题颜色);
-}
-
-
-/* 提督牌子 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[guard_level='2']>i.FansMedal::before {
-    background-color: var(--提督主题颜色);
-}
-
-#div_BiLiveChatOutputer>.div_OutputerItem[guard_level='2']>i.FansMedal::after {
-    border-color: var(--提督主题颜色);
-    color: var(--提督主题颜色);
-}
-
-
-/* 总督牌子 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[guard_level='1']>i.FansMedal::before {
-    background-color: var(--总督主题颜色);
-}
-
-#div_BiLiveChatOutputer>.div_OutputerItem[guard_level='1']>i.FansMedal::after {
-    border-color: var(--总督主题颜色);
-    color: var(--总督主题颜色);
-}
-
-
-/* 头像 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem>img.Avatar {
-    border-radius: 50%;
-    margin: .5em;
-    width: 3em;
-    border: solid .2em;
-    border-color: var(--默认主题颜色);
-}
-
-
-/* 新粉丝样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='1']>img.Avatar {
-    border-color: var(--粉丝团新人主题颜色);
-}
-
-
-/* 老粉丝样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='2']>img.Avatar {
-    border-color: var(--粉丝团老粉主题颜色);
-}
-
-
-/* 核心粉丝样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='3']>img.Avatar {
-    border-color: var(--粉丝团核心粉丝主题颜色);
-}
-
-
-/* 骨灰粉丝样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='4']>img.Avatar {
-    border-color: var(--粉丝团骨灰粉丝主题颜色);
-}
-
-
-/* 舰长样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[guard_level='3']>img.Avatar {
-    border-color: var(--舰长主题颜色);
-}
-
-
-/* 提督样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[guard_level='2']>img.Avatar {
-    border-color: var(--提督主题颜色);
-}
-
-
-/* 总督样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[guard_level='1']>img.Avatar {
-    border-color: var(--总督主题颜色);
-}
-
-
-/* 弹幕边框 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"] {}
-
-
-/* 新粉丝弹幕样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='1'] {
-    border-color: var(--粉丝团新人主题颜色);
-    text-shadow: -2px -2px var(--粉丝团新人主题颜色), -2px -1px var(--粉丝团新人主题颜色), -2px 0px var(--粉丝团新人主题颜色), -2px 1px var(--粉丝团新人主题颜色), -2px 2px var(--粉丝团新人主题颜色), -1px -2px var(--粉丝团新人主题颜色), -1px -1px var(--粉丝团新人主题颜色), -1px 0px var(--粉丝团新人主题颜色), -1px 1px var(--粉丝团新人主题颜色), -1px 2px var(--粉丝团新人主题颜色), 0px -2px var(--粉丝团新人主题颜色), 0px -1px var(--粉丝团新人主题颜色), 0px 0px var(--粉丝团新人主题颜色), 0px 1px var(--粉丝团新人主题颜色), 0px 2px var(--粉丝团新人主题颜色), 1px -2px var(--粉丝团新人主题颜色), 1px -1px var(--粉丝团新人主题颜色), 1px 0px var(--粉丝团新人主题颜色), 1px 1px var(--粉丝团新人主题颜色), 1px 2px var(--粉丝团新人主题颜色), 2px -2px var(--粉丝团新人主题颜色), 2px -1px var(--粉丝团新人主题颜色), 2px 0px var(--粉丝团新人主题颜色), 2px 1px var(--粉丝团新人主题颜色), 2px 2px var(--粉丝团新人主题颜色);
-}
-
-
-/* 老粉丝弹幕样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='2'] {
-    border-color: var(--粉丝团老粉主题颜色);
-    text-shadow: -2px -2px var(--粉丝团老粉主题颜色), -2px -1px var(--粉丝团老粉主题颜色), -2px 0px var(--粉丝团老粉主题颜色), -2px 1px var(--粉丝团老粉主题颜色), -2px 2px var(--粉丝团老粉主题颜色), -1px -2px var(--粉丝团老粉主题颜色), -1px -1px var(--粉丝团老粉主题颜色), -1px 0px var(--粉丝团老粉主题颜色), -1px 1px var(--粉丝团老粉主题颜色), -1px 2px var(--粉丝团老粉主题颜色), 0px -2px var(--粉丝团老粉主题颜色), 0px -1px var(--粉丝团老粉主题颜色), 0px 0px var(--粉丝团老粉主题颜色), 0px 1px var(--粉丝团老粉主题颜色), 0px 2px var(--粉丝团老粉主题颜色), 1px -2px var(--粉丝团老粉主题颜色), 1px -1px var(--粉丝团老粉主题颜色), 1px 0px var(--粉丝团老粉主题颜色), 1px 1px var(--粉丝团老粉主题颜色), 1px 2px var(--粉丝团老粉主题颜色), 2px -2px var(--粉丝团老粉主题颜色), 2px -1px var(--粉丝团老粉主题颜色), 2px 0px var(--粉丝团老粉主题颜色), 2px 1px var(--粉丝团老粉主题颜色), 2px 2px var(--粉丝团老粉主题颜色);
-}
-
-
-/* 核心粉丝弹幕样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='3'] {
-    border-color: var(--粉丝团核心粉丝主题颜色);
-    text-shadow: -2px -2px var(--粉丝团核心粉丝主题颜色), -2px -1px var(--粉丝团核心粉丝主题颜色), -2px 0px var(--粉丝团核心粉丝主题颜色), -2px 1px var(--粉丝团核心粉丝主题颜色), -2px 2px var(--粉丝团核心粉丝主题颜色), -1px -2px var(--粉丝团核心粉丝主题颜色), -1px -1px var(--粉丝团核心粉丝主题颜色), -1px 0px var(--粉丝团核心粉丝主题颜色), -1px 1px var(--粉丝团核心粉丝主题颜色), -1px 2px var(--粉丝团核心粉丝主题颜色), 0px -2px var(--粉丝团核心粉丝主题颜色), 0px -1px var(--粉丝团核心粉丝主题颜色), 0px 0px var(--粉丝团核心粉丝主题颜色), 0px 1px var(--粉丝团核心粉丝主题颜色), 0px 2px var(--粉丝团核心粉丝主题颜色), 1px -2px var(--粉丝团核心粉丝主题颜色), 1px -1px var(--粉丝团核心粉丝主题颜色), 1px 0px var(--粉丝团核心粉丝主题颜色), 1px 1px var(--粉丝团核心粉丝主题颜色), 1px 2px var(--粉丝团核心粉丝主题颜色), 2px -2px var(--粉丝团核心粉丝主题颜色), 2px -1px var(--粉丝团核心粉丝主题颜色), 2px 0px var(--粉丝团核心粉丝主题颜色), 2px 1px var(--粉丝团核心粉丝主题颜色), 2px 2px var(--粉丝团核心粉丝主题颜色);
-}
-
-
-/* 骨灰粉丝弹幕样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='4'] {
-    border-color: var(--粉丝团骨灰粉丝主题颜色);
-    text-shadow: -2px -2px var(--粉丝团骨灰粉丝主题颜色), -2px -1px var(--粉丝团骨灰粉丝主题颜色), -2px 0px var(--粉丝团骨灰粉丝主题颜色), -2px 1px var(--粉丝团骨灰粉丝主题颜色), -2px 2px var(--粉丝团骨灰粉丝主题颜色), -1px -2px var(--粉丝团骨灰粉丝主题颜色), -1px -1px var(--粉丝团骨灰粉丝主题颜色), -1px 0px var(--粉丝团骨灰粉丝主题颜色), -1px 1px var(--粉丝团骨灰粉丝主题颜色), -1px 2px var(--粉丝团骨灰粉丝主题颜色), 0px -2px var(--粉丝团骨灰粉丝主题颜色), 0px -1px var(--粉丝团骨灰粉丝主题颜色), 0px 0px var(--粉丝团骨灰粉丝主题颜色), 0px 1px var(--粉丝团骨灰粉丝主题颜色), 0px 2px var(--粉丝团骨灰粉丝主题颜色), 1px -2px var(--粉丝团骨灰粉丝主题颜色), 1px -1px var(--粉丝团骨灰粉丝主题颜色), 1px 0px var(--粉丝团骨灰粉丝主题颜色), 1px 1px var(--粉丝团骨灰粉丝主题颜色), 1px 2px var(--粉丝团骨灰粉丝主题颜色), 2px -2px var(--粉丝团骨灰粉丝主题颜色), 2px -1px var(--粉丝团骨灰粉丝主题颜色), 2px 0px var(--粉丝团骨灰粉丝主题颜色), 2px 1px var(--粉丝团骨灰粉丝主题颜色), 2px 2px var(--粉丝团骨灰粉丝主题颜色);
-}
-
-
-/* 舰长弹幕样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][guard_level='3'] {
-    border-color: var(--舰长主题颜色);
-    text-shadow: -2px -2px var(--舰长主题颜色), -2px -1px var(--舰长主题颜色), -2px 0px var(--舰长主题颜色), -2px 1px var(--舰长主题颜色), -2px 2px var(--舰长主题颜色), -1px -2px var(--舰长主题颜色), -1px -1px var(--舰长主题颜色), -1px 0px var(--舰长主题颜色), -1px 1px var(--舰长主题颜色), -1px 2px var(--舰长主题颜色), 0px -2px var(--舰长主题颜色), 0px -1px var(--舰长主题颜色), 0px 0px var(--舰长主题颜色), 0px 1px var(--舰长主题颜色), 0px 2px var(--舰长主题颜色), 1px -2px var(--舰长主题颜色), 1px -1px var(--舰长主题颜色), 1px 0px var(--舰长主题颜色), 1px 1px var(--舰长主题颜色), 1px 2px var(--舰长主题颜色), 2px -2px var(--舰长主题颜色), 2px -1px var(--舰长主题颜色), 2px 0px var(--舰长主题颜色), 2px 1px var(--舰长主题颜色), 2px 2px var(--舰长主题颜色);
-}
-
-
-/* 提督弹幕样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][guard_level='2'] {
-    border-color: var(--提督主题颜色);
-    text-shadow: -2px -2px var(--提督主题颜色), -2px -1px var(--提督主题颜色), -2px 0px var(--提督主题颜色), -2px 1px var(--提督主题颜色), -2px 2px var(--提督主题颜色), -1px -2px var(--提督主题颜色), -1px -1px var(--提督主题颜色), -1px 0px var(--提督主题颜色), -1px 1px var(--提督主题颜色), -1px 2px var(--提督主题颜色), 0px -2px var(--提督主题颜色), 0px -1px var(--提督主题颜色), 0px 0px var(--提督主题颜色), 0px 1px var(--提督主题颜色), 0px 2px var(--提督主题颜色), 1px -2px var(--提督主题颜色), 1px -1px var(--提督主题颜色), 1px 0px var(--提督主题颜色), 1px 1px var(--提督主题颜色), 1px 2px var(--提督主题颜色), 2px -2px var(--提督主题颜色), 2px -1px var(--提督主题颜色), 2px 0px var(--提督主题颜色), 2px 1px var(--提督主题颜色), 2px 2px var(--提督主题颜色);
-}
-
-
-/* 总督弹幕样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][guard_level='1'] {
-    border-color: var(--总督主题颜色);
-    text-shadow: -2px -2px var(--总督主题颜色), -2px -1px var(--总督主题颜色), -2px 0px var(--总督主题颜色), -2px 1px var(--总督主题颜色), -2px 2px var(--总督主题颜色), -1px -2px var(--总督主题颜色), -1px -1px var(--总督主题颜色), -1px 0px var(--总督主题颜色), -1px 1px var(--总督主题颜色), -1px 2px var(--总督主题颜色), 0px -2px var(--总督主题颜色), 0px -1px var(--总督主题颜色), 0px 0px var(--总督主题颜色), 0px 1px var(--总督主题颜色), 0px 2px var(--总督主题颜色), 1px -2px var(--总督主题颜色), 1px -1px var(--总督主题颜色), 1px 0px var(--总督主题颜色), 1px 1px var(--总督主题颜色), 1px 2px var(--总督主题颜色), 2px -2px var(--总督主题颜色), 2px -1px var(--总督主题颜色), 2px 0px var(--总督主题颜色), 2px 1px var(--总督主题颜色), 2px 2px var(--总督主题颜色);
-}
-
-
-/* 弹幕弹幕内容 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"]>span.Content {
-    word-break: keep-all;
-    margin: .5em .5em;
-    vertical-align: middle;
-    line-height: 2em;
-}
-
-
-/* 舰队内容加粗 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"]:not([guard_level='0']) {
-    font-weight: 700;
-}
-
-
-/* 右上角时间 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"]>span.Time {
-    top: -.2rem;
-    right: -.2rem;
-    margin: 0;
-    padding: .25em .5em;
-    position: absolute;
-    border-bottom-left-radius: .5em;
-    background-color: var(--默认主题颜色);
-    text-shadow: none;
-}
-
-
-/* 新粉丝右上角时间样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='1']>span.Time {
-    background-color: var(--粉丝团新人主题颜色);
-}
-
-
-/* 老粉丝右上角时间样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='2']>span.Time {
-    background-color: var(--粉丝团老粉主题颜色);
-}
-
-
-/* 核心粉丝右上角时间样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='3']>span.Time {
-    background-color: var(--粉丝团核心粉丝主题颜色);
-}
-
-
-/* 骨灰粉丝右上角时间样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='4']>span.Time {
-    background-color: var(--粉丝团骨灰粉丝主题颜色);
-}
-
-
-/* 舰长右上角时间样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][guard_level='3']>span.Time {
-    background-color: var(--舰长主题颜色);
-}
-
-
-/* 提督右上角时间样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][guard_level='2']>span.Time {
-    background-color: var(--提督主题颜色);
-}
-
-
-/* 总督右上角时间样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][guard_level='1']>span.Time {
-    background-color: var(--总督主题颜色);
-}
-
-#div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='2'] {
-    border-color: var(--默认主题颜色);
-    font-weight: 700;
-}
-
-
-/* 礼物样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Gifts"] {
-    color: var(--礼物主题颜色);
-    background-color: var(--礼物主题颜色);
-    border: none;
-    text-shadow: -2px -2px var(--默认文字颜色), -2px -1px var(--默认文字颜色), -2px 0px var(--默认文字颜色), -2px 1px var(--默认文字颜色), -2px 2px var(--默认文字颜色), -1px -2px var(--默认文字颜色), -1px -1px var(--默认文字颜色), -1px 0px var(--默认文字颜色), -1px 1px var(--默认文字颜色), -1px 2px var(--默认文字颜色), 0px -2px var(--默认文字颜色), 0px -1px var(--默认文字颜色), 0px 0px var(--默认文字颜色), 0px 1px var(--默认文字颜色), 0px 2px var(--默认文字颜色), 1px -2px var(--默认文字颜色), 1px -1px var(--默认文字颜色), 1px 0px var(--默认文字颜色), 1px 1px var(--默认文字颜色), 1px 2px var(--默认文字颜色), 2px -2px var(--默认文字颜色), 2px -1px var(--默认文字颜色), 2px 0px var(--默认文字颜色), 2px 1px var(--默认文字颜色), 2px 2px var(--默认文字颜色);
-}
-
-
-/* 上舰样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="Guard"] {
-    color: var(--舰长主题颜色);
-    background-color: var(--舰长主题颜色);
-    border: none;
-    text-shadow: -2px -2px var(--默认文字颜色), -2px -1px var(--默认文字颜色), -2px 0px var(--默认文字颜色), -2px 1px var(--默认文字颜色), -2px 2px var(--默认文字颜色), -1px -2px var(--默认文字颜色), -1px -1px var(--默认文字颜色), -1px 0px var(--默认文字颜色), -1px 1px var(--默认文字颜色), -1px 2px var(--默认文字颜色), 0px -2px var(--默认文字颜色), 0px -1px var(--默认文字颜色), 0px 0px var(--默认文字颜色), 0px 1px var(--默认文字颜色), 0px 2px var(--默认文字颜色), 1px -2px var(--默认文字颜色), 1px -1px var(--默认文字颜色), 1px 0px var(--默认文字颜色), 1px 1px var(--默认文字颜色), 1px 2px var(--默认文字颜色), 2px -2px var(--默认文字颜色), 2px -1px var(--默认文字颜色), 2px 0px var(--默认文字颜色), 2px 1px var(--默认文字颜色), 2px 2px var(--默认文字颜色);
-}
-
-
-/* SC样式 */
-
-#div_BiLiveChatOutputer>.div_OutputerItem[type="SuperChat"] {
-    color: var(--SC主题颜色);
-    background-color: var(--SC主题颜色);
-    border: none;
-    text-shadow: -2px -2px var(--默认文字颜色), -2px -1px var(--默认文字颜色), -2px 0px var(--默认文字颜色), -2px 1px var(--默认文字颜色), -2px 2px var(--默认文字颜色), -1px -2px var(--默认文字颜色), -1px -1px var(--默认文字颜色), -1px 0px var(--默认文字颜色), -1px 1px var(--默认文字颜色), -1px 2px var(--默认文字颜色), 0px -2px var(--默认文字颜色), 0px -1px var(--默认文字颜色), 0px 0px var(--默认文字颜色), 0px 1px var(--默认文字颜色), 0px 2px var(--默认文字颜色), 1px -2px var(--默认文字颜色), 1px -1px var(--默认文字颜色), 1px 0px var(--默认文字颜色), 1px 1px var(--默认文字颜色), 1px 2px var(--默认文字颜色), 2px -2px var(--默认文字颜色), 2px -1px var(--默认文字颜色), 2px 0px var(--默认文字颜色), 2px 1px var(--默认文字颜色), 2px 2px var(--默认文字颜色);
-}
-
-
-/* 新粉丝样式 */
-
-
-/* 老粉丝样式 */
-
-
-/* 核心粉丝样式 */
-
-
-/* 骨灰粉丝样式 */
-
-
-/* 舰长样式 */
-
-
-/* 提督样式 */
-
-
-/* 总督样式 */
-
-
-/* 总督样式 */
+    /* 定义变量便于一键修改 */
+    
+     :root {
+        /* 其他设置 */
+        --基础字号: 22px;
+        /* 主题颜色 */
+        --默认文字颜色: #FFF;
+        --默认主题颜色: #BBB;
+        --粉丝团新人主题颜色: #777;
+        --粉丝团老粉主题颜色: #555;
+        --粉丝团核心粉丝主题颜色: #333;
+        --粉丝团骨灰粉丝主题颜色: #222;
+        --礼物主题颜色: #F55;
+        --SC主题颜色: #FA2;
+        /* 粉丝团粉丝牌 */
+        --粉丝团新人粉丝牌: #BE9;
+        --粉丝团老粉粉丝牌: #FC9;
+        --粉丝团核心粉丝粉丝牌: #F88;
+        --粉丝团骨灰粉丝粉丝牌: #F55;
+        /* 舰队主题颜色 */
+        --舰长主题颜色: #5BF;
+        --提督主题颜色: #56f;
+        --总督主题颜色: #65F;
+    }
+    /* 引入自定义字体 */
+    
+    @font-face {
+        font-family: YouZai;
+        src: url(./Yozai-Regular.ttf);
+    }
+    /* 使用自定义字体 */
+    
+    * {
+        font-family: YouZai;
+    }
+    
+    html,
+    body {
+        font-size: var(--基础字号);
+    }
+    
+    #div_BiLiveChatOutputer {
+        padding: .5rem;
+        background: #FFF9;
+        margin: .5rem;
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem {
+        margin: .5rem;
+        padding: .75em 1em;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        border: .2rem dashed;
+        font-size: var(--基础字号);
+        border-color: var(--默认主题颜色);
+        border-spacing: 5px;
+        color: var(--默认文字颜色);
+        text-shadow: -2px -2px var(--默认主题颜色), -2px -1px var(--默认主题颜色), -2px 0px var(--默认主题颜色), -2px 1px var(--默认主题颜色), -2px 2px var(--默认主题颜色), -1px -2px var(--默认主题颜色), -1px -1px var(--默认主题颜色), -1px 0px var(--默认主题颜色), -1px 1px var(--默认主题颜色), -1px 2px var(--默认主题颜色), 0px -2px var(--默认主题颜色), 0px -1px var(--默认主题颜色), 0px 0px var(--默认主题颜色), 0px 1px var(--默认主题颜色), 0px 2px var(--默认主题颜色), 1px -2px var(--默认主题颜色), 1px -1px var(--默认主题颜色), 1px 0px var(--默认主题颜色), 1px 1px var(--默认主题颜色), 1px 2px var(--默认主题颜色), 2px -2px var(--默认主题颜色), 2px -1px var(--默认主题颜色), 2px 0px var(--默认主题颜色), 2px 1px var(--默认主题颜色), 2px 2px var(--默认主题颜色);
+        position: relative;
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem>* {
+        margin: 1em .5em;
+        font-size: var(--基础字号);
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem span {
+        word-break: keep-all;
+        margin: .5em .5em;
+        vertical-align: middle;
+        line-height: 2em;
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem span.NickName {
+        /* margin: .5em 0; */
+    }
+    /* 粉丝团牌子 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem i.FansMedal {
+        text-shadow: none;
+        font-style: normal;
+        display: inline-flex;
+        margin: 0;
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem i.FansMedal::before {
+        content: attr(name);
+        background-color: #F88;
+        padding: .15em;
+        border-top-left-radius: .2em;
+        border-bottom-left-radius: .2em;
+        padding-left: .35em;
+        color: var(--默认文字颜色);
+        font-weight: 500;
+        line-height: 1.3em;
+        height: 1.3em;
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem i.FansMedal::after {
+        content: attr(level);
+        padding: 0 .1em;
+        line-height: 1.3em;
+        height: 1.3em;
+        border-top-right-radius: .2em;
+        border-bottom-right-radius: .2em;
+        border: solid .15em;
+        border-color: #F88;
+        background-color: #fff;
+        color: #F88;
+        padding-left: .15em;
+        font-weight: 700;
+    }
+    /* 新粉牌子 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='0'] i.FansMedal::before {
+        background-color: var(--粉丝团新人粉丝牌);
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='0'] i.FansMedal::after {
+        border-color: var(--粉丝团新人粉丝牌);
+        color: var(--粉丝团新人粉丝牌);
+    }
+    /* 老粉牌子 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='1'] i.FansMedal::before {
+        background-color: var(--粉丝团老粉粉丝牌);
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='1'] i.FansMedal::after {
+        border-color: var(--粉丝团老粉粉丝牌);
+        color: var(--粉丝团老粉粉丝牌);
+    }
+    /* 核心粉丝牌子 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='2'] i.FansMedal::before {
+        background-color: var(--粉丝团核心粉丝粉丝牌);
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='2'] i.FansMedal::after {
+        border-color: var(--粉丝团核心粉丝粉丝牌);
+        color: var(--粉丝团核心粉丝粉丝牌);
+    }
+    /* 骨灰粉丝牌子 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='3'] i.FansMedal::before {
+        background-color: var(--粉丝团骨灰粉丝粉丝牌);
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='3'] i.FansMedal::after {
+        border-color: var(--粉丝团骨灰粉丝粉丝牌);
+        color: var(--粉丝团骨灰粉丝粉丝牌);
+    }
+    /* 舰长牌子 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='3'] i.FansMedal::before {
+        background-color: var(--舰长主题颜色);
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='3'] i.FansMedal::after {
+        border-color: var(--舰长主题颜色);
+        color: var(--舰长主题颜色);
+    }
+    /* 提督牌子 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='2'] i.FansMedal::before {
+        background-color: var(--提督主题颜色);
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='2']>i.FansMedal::after {
+        border-color: var(--提督主题颜色);
+        color: var(--提督主题颜色);
+    }
+    /* 总督牌子 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='1'] i.FansMedal::before {
+        background-color: var(--总督主题颜色);
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='1'] i.FansMedal::after {
+        border-color: var(--总督主题颜色);
+        color: var(--总督主题颜色);
+    }
+    /* 头像和礼物共用 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem img.Avatar,
+    #div_BiLiveChatOutputer>.div_OutputerItem img.GiftIcon {
+        width: 3em;
+    }
+    /* 头像 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem img.Avatar {
+        margin: .5em .2em;
+        border-radius: 50%;
+        border: solid .2em;
+        border-color: var(--默认主题颜色);
+        margin: .5em 1em .5em .2em;
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem img.GiftIcon {
+        margin: 0;
+    }
+    /* 新粉丝样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='0'] img.Avatar {
+        border-color: var(--粉丝团新人粉丝牌);
+    }
+    /* 老粉丝样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='1'] img.Avatar {
+        border-color: var(--粉丝团老粉粉丝牌);
+    }
+    /* 核心粉丝样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='2'] img.Avatar {
+        border-color: var(--粉丝团核心粉丝粉丝牌);
+    }
+    /* 骨灰粉丝样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='3'] img.Avatar {
+        border-color: var(--粉丝团骨灰粉丝粉丝牌);
+    }
+    /* 舰长样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='3'] img.Avatar {
+        border-color: var(--舰长主题颜色);
+    }
+    /* 提督样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='2'] img.Avatar {
+        border-color: var(--提督主题颜色);
+    }
+    /* 总督样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[guard_level='1'] img.Avatar {
+        border-color: var(--总督主题颜色);
+    }
+    /* 弹幕边框 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"] {}
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"]>span.NickName::after {
+        content: "：";
+    }
+    /* 新粉丝弹幕样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='1'] {
+        border-color: var(--粉丝团新人主题颜色);
+        text-shadow: -2px -2px var(--粉丝团新人主题颜色), -2px -1px var(--粉丝团新人主题颜色), -2px 0px var(--粉丝团新人主题颜色), -2px 1px var(--粉丝团新人主题颜色), -2px 2px var(--粉丝团新人主题颜色), -1px -2px var(--粉丝团新人主题颜色), -1px -1px var(--粉丝团新人主题颜色), -1px 0px var(--粉丝团新人主题颜色), -1px 1px var(--粉丝团新人主题颜色), -1px 2px var(--粉丝团新人主题颜色), 0px -2px var(--粉丝团新人主题颜色), 0px -1px var(--粉丝团新人主题颜色), 0px 0px var(--粉丝团新人主题颜色), 0px 1px var(--粉丝团新人主题颜色), 0px 2px var(--粉丝团新人主题颜色), 1px -2px var(--粉丝团新人主题颜色), 1px -1px var(--粉丝团新人主题颜色), 1px 0px var(--粉丝团新人主题颜色), 1px 1px var(--粉丝团新人主题颜色), 1px 2px var(--粉丝团新人主题颜色), 2px -2px var(--粉丝团新人主题颜色), 2px -1px var(--粉丝团新人主题颜色), 2px 0px var(--粉丝团新人主题颜色), 2px 1px var(--粉丝团新人主题颜色), 2px 2px var(--粉丝团新人主题颜色);
+    }
+    /* 老粉丝弹幕样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='2'] {
+        border-color: var(--粉丝团老粉主题颜色);
+        text-shadow: -2px -2px var(--粉丝团老粉主题颜色), -2px -1px var(--粉丝团老粉主题颜色), -2px 0px var(--粉丝团老粉主题颜色), -2px 1px var(--粉丝团老粉主题颜色), -2px 2px var(--粉丝团老粉主题颜色), -1px -2px var(--粉丝团老粉主题颜色), -1px -1px var(--粉丝团老粉主题颜色), -1px 0px var(--粉丝团老粉主题颜色), -1px 1px var(--粉丝团老粉主题颜色), -1px 2px var(--粉丝团老粉主题颜色), 0px -2px var(--粉丝团老粉主题颜色), 0px -1px var(--粉丝团老粉主题颜色), 0px 0px var(--粉丝团老粉主题颜色), 0px 1px var(--粉丝团老粉主题颜色), 0px 2px var(--粉丝团老粉主题颜色), 1px -2px var(--粉丝团老粉主题颜色), 1px -1px var(--粉丝团老粉主题颜色), 1px 0px var(--粉丝团老粉主题颜色), 1px 1px var(--粉丝团老粉主题颜色), 1px 2px var(--粉丝团老粉主题颜色), 2px -2px var(--粉丝团老粉主题颜色), 2px -1px var(--粉丝团老粉主题颜色), 2px 0px var(--粉丝团老粉主题颜色), 2px 1px var(--粉丝团老粉主题颜色), 2px 2px var(--粉丝团老粉主题颜色);
+    }
+    /* 核心粉丝弹幕样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='3'] {
+        border-color: var(--粉丝团核心粉丝主题颜色);
+        text-shadow: -2px -2px var(--粉丝团核心粉丝主题颜色), -2px -1px var(--粉丝团核心粉丝主题颜色), -2px 0px var(--粉丝团核心粉丝主题颜色), -2px 1px var(--粉丝团核心粉丝主题颜色), -2px 2px var(--粉丝团核心粉丝主题颜色), -1px -2px var(--粉丝团核心粉丝主题颜色), -1px -1px var(--粉丝团核心粉丝主题颜色), -1px 0px var(--粉丝团核心粉丝主题颜色), -1px 1px var(--粉丝团核心粉丝主题颜色), -1px 2px var(--粉丝团核心粉丝主题颜色), 0px -2px var(--粉丝团核心粉丝主题颜色), 0px -1px var(--粉丝团核心粉丝主题颜色), 0px 0px var(--粉丝团核心粉丝主题颜色), 0px 1px var(--粉丝团核心粉丝主题颜色), 0px 2px var(--粉丝团核心粉丝主题颜色), 1px -2px var(--粉丝团核心粉丝主题颜色), 1px -1px var(--粉丝团核心粉丝主题颜色), 1px 0px var(--粉丝团核心粉丝主题颜色), 1px 1px var(--粉丝团核心粉丝主题颜色), 1px 2px var(--粉丝团核心粉丝主题颜色), 2px -2px var(--粉丝团核心粉丝主题颜色), 2px -1px var(--粉丝团核心粉丝主题颜色), 2px 0px var(--粉丝团核心粉丝主题颜色), 2px 1px var(--粉丝团核心粉丝主题颜色), 2px 2px var(--粉丝团核心粉丝主题颜色);
+    }
+    /* 骨灰粉丝弹幕样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='4'] {
+        border-color: var(--粉丝团骨灰粉丝主题颜色);
+        text-shadow: -2px -2px var(--粉丝团骨灰粉丝主题颜色), -2px -1px var(--粉丝团骨灰粉丝主题颜色), -2px 0px var(--粉丝团骨灰粉丝主题颜色), -2px 1px var(--粉丝团骨灰粉丝主题颜色), -2px 2px var(--粉丝团骨灰粉丝主题颜色), -1px -2px var(--粉丝团骨灰粉丝主题颜色), -1px -1px var(--粉丝团骨灰粉丝主题颜色), -1px 0px var(--粉丝团骨灰粉丝主题颜色), -1px 1px var(--粉丝团骨灰粉丝主题颜色), -1px 2px var(--粉丝团骨灰粉丝主题颜色), 0px -2px var(--粉丝团骨灰粉丝主题颜色), 0px -1px var(--粉丝团骨灰粉丝主题颜色), 0px 0px var(--粉丝团骨灰粉丝主题颜色), 0px 1px var(--粉丝团骨灰粉丝主题颜色), 0px 2px var(--粉丝团骨灰粉丝主题颜色), 1px -2px var(--粉丝团骨灰粉丝主题颜色), 1px -1px var(--粉丝团骨灰粉丝主题颜色), 1px 0px var(--粉丝团骨灰粉丝主题颜色), 1px 1px var(--粉丝团骨灰粉丝主题颜色), 1px 2px var(--粉丝团骨灰粉丝主题颜色), 2px -2px var(--粉丝团骨灰粉丝主题颜色), 2px -1px var(--粉丝团骨灰粉丝主题颜色), 2px 0px var(--粉丝团骨灰粉丝主题颜色), 2px 1px var(--粉丝团骨灰粉丝主题颜色), 2px 2px var(--粉丝团骨灰粉丝主题颜色);
+    }
+    /* 舰长弹幕样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][guard_level='3'] {
+        border-color: var(--舰长主题颜色);
+        text-shadow: -2px -2px var(--舰长主题颜色), -2px -1px var(--舰长主题颜色), -2px 0px var(--舰长主题颜色), -2px 1px var(--舰长主题颜色), -2px 2px var(--舰长主题颜色), -1px -2px var(--舰长主题颜色), -1px -1px var(--舰长主题颜色), -1px 0px var(--舰长主题颜色), -1px 1px var(--舰长主题颜色), -1px 2px var(--舰长主题颜色), 0px -2px var(--舰长主题颜色), 0px -1px var(--舰长主题颜色), 0px 0px var(--舰长主题颜色), 0px 1px var(--舰长主题颜色), 0px 2px var(--舰长主题颜色), 1px -2px var(--舰长主题颜色), 1px -1px var(--舰长主题颜色), 1px 0px var(--舰长主题颜色), 1px 1px var(--舰长主题颜色), 1px 2px var(--舰长主题颜色), 2px -2px var(--舰长主题颜色), 2px -1px var(--舰长主题颜色), 2px 0px var(--舰长主题颜色), 2px 1px var(--舰长主题颜色), 2px 2px var(--舰长主题颜色);
+    }
+    /* 提督弹幕样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][guard_level='2'] {
+        border-color: var(--提督主题颜色);
+        text-shadow: -2px -2px var(--提督主题颜色), -2px -1px var(--提督主题颜色), -2px 0px var(--提督主题颜色), -2px 1px var(--提督主题颜色), -2px 2px var(--提督主题颜色), -1px -2px var(--提督主题颜色), -1px -1px var(--提督主题颜色), -1px 0px var(--提督主题颜色), -1px 1px var(--提督主题颜色), -1px 2px var(--提督主题颜色), 0px -2px var(--提督主题颜色), 0px -1px var(--提督主题颜色), 0px 0px var(--提督主题颜色), 0px 1px var(--提督主题颜色), 0px 2px var(--提督主题颜色), 1px -2px var(--提督主题颜色), 1px -1px var(--提督主题颜色), 1px 0px var(--提督主题颜色), 1px 1px var(--提督主题颜色), 1px 2px var(--提督主题颜色), 2px -2px var(--提督主题颜色), 2px -1px var(--提督主题颜色), 2px 0px var(--提督主题颜色), 2px 1px var(--提督主题颜色), 2px 2px var(--提督主题颜色);
+    }
+    /* 总督弹幕样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][guard_level='1'] {
+        border-color: var(--总督主题颜色);
+        text-shadow: -2px -2px var(--总督主题颜色), -2px -1px var(--总督主题颜色), -2px 0px var(--总督主题颜色), -2px 1px var(--总督主题颜色), -2px 2px var(--总督主题颜色), -1px -2px var(--总督主题颜色), -1px -1px var(--总督主题颜色), -1px 0px var(--总督主题颜色), -1px 1px var(--总督主题颜色), -1px 2px var(--总督主题颜色), 0px -2px var(--总督主题颜色), 0px -1px var(--总督主题颜色), 0px 0px var(--总督主题颜色), 0px 1px var(--总督主题颜色), 0px 2px var(--总督主题颜色), 1px -2px var(--总督主题颜色), 1px -1px var(--总督主题颜色), 1px 0px var(--总督主题颜色), 1px 1px var(--总督主题颜色), 1px 2px var(--总督主题颜色), 2px -2px var(--总督主题颜色), 2px -1px var(--总督主题颜色), 2px 0px var(--总督主题颜色), 2px 1px var(--总督主题颜色), 2px 2px var(--总督主题颜色);
+    }
+    /* 舰队内容加粗 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"]:not([guard_level='0']) {
+        font-weight: 700;
+    }
+    /* 右上角时间 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem>span.Time {
+        top: -.2rem;
+        right: -.2rem;
+        margin: 0;
+        padding: .25em .5em;
+        position: absolute;
+        border-bottom-left-radius: .5em;
+        background-color: var(--默认主题颜色);
+        text-shadow: none;
+        line-height: 1.25em;
+        font-weight: normal;
+    }
+    /* 新粉丝右上角时间样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='1']>span.Time {
+        background-color: var(--粉丝团新人主题颜色);
+    }
+    /* 老粉丝右上角时间样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='2']>span.Time {
+        background-color: var(--粉丝团老粉主题颜色);
+    }
+    /* 核心粉丝右上角时间样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='3']>span.Time {
+        background-color: var(--粉丝团核心粉丝主题颜色);
+    }
+    /* 骨灰粉丝右上角时间样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][medal_level_level='4']>span.Time {
+        background-color: var(--粉丝团骨灰粉丝主题颜色);
+    }
+    /* 舰长右上角时间样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][guard_level='3']>span.Time {
+        background-color: var(--舰长主题颜色);
+    }
+    /* 提督右上角时间样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][guard_level='2']>span.Time {
+        background-color: var(--提督主题颜色);
+    }
+    /* 总督右上角时间样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Danmaku"][guard_level='1']>span.Time {
+        background-color: var(--总督主题颜色);
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[medal_level_level='2'] {
+        border-color: var(--默认主题颜色);
+        font-weight: 700;
+    }
+    /* 礼物右上角时间 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Gifts"]>span.Time {
+        background-color: var(--礼物主题颜色);
+        color: var(--默认文字颜色);
+    }
+    /* 上舰右上角时间 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Guard"]>span.Time {
+        background-color: var(--舰长主题颜色);
+        top: 0;
+        right: 0;
+    }
+    /* SC右上角时间 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="SC"]>span.Time {
+        background-color: var(--舰长主题颜色);
+        top: 0;
+        right: 0;
+    }
+    /* 礼物样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Gifts"] {
+        color: var(--礼物主题颜色);
+        border-color: var(--礼物主题颜色);
+        border-style: solid;
+        font-weight: 900;
+        text-shadow: -2px -2px var(--默认文字颜色), -2px -1px var(--默认文字颜色), -2px 0px var(--默认文字颜色), -2px 1px var(--默认文字颜色), -2px 2px var(--默认文字颜色), -1px -2px var(--默认文字颜色), -1px -1px var(--默认文字颜色), -1px 0px var(--默认文字颜色), -1px 1px var(--默认文字颜色), -1px 2px var(--默认文字颜色), 0px -2px var(--默认文字颜色), 0px -1px var(--默认文字颜色), 0px 0px var(--默认文字颜色), 0px 1px var(--默认文字颜色), 0px 2px var(--默认文字颜色), 1px -2px var(--默认文字颜色), 1px -1px var(--默认文字颜色), 1px 0px var(--默认文字颜色), 1px 1px var(--默认文字颜色), 1px 2px var(--默认文字颜色), 2px -2px var(--默认文字颜色), 2px -1px var(--默认文字颜色), 2px 0px var(--默认文字颜色), 2px 1px var(--默认文字颜色), 2px 2px var(--默认文字颜色);
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Gifts"] span.Content {
+        line-height: 3em;
+    }
+    /* 上舰样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Guard"] {
+        color: var(--舰长主题颜色);
+        background-color: var(--舰长主题颜色);
+        border: none;
+        text-shadow: -2px -2px var(--默认文字颜色), -2px -1px var(--默认文字颜色), -2px 0px var(--默认文字颜色), -2px 1px var(--默认文字颜色), -2px 2px var(--默认文字颜色), -1px -2px var(--默认文字颜色), -1px -1px var(--默认文字颜色), -1px 0px var(--默认文字颜色), -1px 1px var(--默认文字颜色), -1px 2px var(--默认文字颜色), 0px -2px var(--默认文字颜色), 0px -1px var(--默认文字颜色), 0px 0px var(--默认文字颜色), 0px 1px var(--默认文字颜色), 0px 2px var(--默认文字颜色), 1px -2px var(--默认文字颜色), 1px -1px var(--默认文字颜色), 1px 0px var(--默认文字颜色), 1px 1px var(--默认文字颜色), 1px 2px var(--默认文字颜色), 2px -2px var(--默认文字颜色), 2px -1px var(--默认文字颜色), 2px 0px var(--默认文字颜色), 2px 1px var(--默认文字颜色), 2px 2px var(--默认文字颜色);
+    }
+    /* SC样式 */
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="SuperChat"] {
+        color: var(--SC主题颜色);
+        background-color: var(--SC主题颜色);
+        border: none;
+        text-shadow: -2px -2px var(--默认文字颜色), -2px -1px var(--默认文字颜色), -2px 0px var(--默认文字颜色), -2px 1px var(--默认文字颜色), -2px 2px var(--默认文字颜色), -1px -2px var(--默认文字颜色), -1px -1px var(--默认文字颜色), -1px 0px var(--默认文字颜色), -1px 1px var(--默认文字颜色), -1px 2px var(--默认文字颜色), 0px -2px var(--默认文字颜色), 0px -1px var(--默认文字颜色), 0px 0px var(--默认文字颜色), 0px 1px var(--默认文字颜色), 0px 2px var(--默认文字颜色), 1px -2px var(--默认文字颜色), 1px -1px var(--默认文字颜色), 1px 0px var(--默认文字颜色), 1px 1px var(--默认文字颜色), 1px 2px var(--默认文字颜色), 2px -2px var(--默认文字颜色), 2px -1px var(--默认文字颜色), 2px 0px var(--默认文字颜色), 2px 1px var(--默认文字颜色), 2px 2px var(--默认文字颜色);
+    }
+    /* 新粉丝样式 */
+    /* 老粉丝样式 */
+    /* 核心粉丝样式 */
+    /* 骨灰粉丝样式 */
+    /* 舰长样式 */
+    /* 提督样式 */
+    /* 总督样式 */
+    /* 总督样式 */
