@@ -19,6 +19,7 @@
     <script src="./../Lib/BiLiveChat/BiliBili_PlayWithMe_JSONP.js" type="text/javascript"></script>
 
     <script src="./../Lib/BiLiveChat/BiLiveChat.js" type="text/javascript"></script>
+    <script src="./../Lib/BiLiveChat/GiftList.js" type="text/javascript"></script>
     <link href="./../Lib/BiLiveChat/BiLiveChat.css" rel="stylesheet">
 
     <!-- 样式CSS -->
@@ -196,7 +197,7 @@
     // 初始化PlayWithMe.js
     BiliBili_PlayWithMe.Init();
     // 由某喵的代签服务器向B站申请进行WEBSocket长连接，成功了会自动连入
-    BiliPWM.PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP();
+    BiliBili_PlayWithMe.PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP();
     // 执行到这里没问题的话，有弹幕就会自动调用你的代码了
 
     //测试样本
