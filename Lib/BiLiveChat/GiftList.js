@@ -1,4 +1,18 @@
+/**
+ * 礼物信息工具类
+ */
 class Gift {
+    /**
+     * 
+     * @param {string} Name 
+     * @param {string} Desc 
+     * @param {number} GiftType 
+     * @param {number} Price 
+     * @param {string} StlcImg 
+     * @param {string} StlcImg_Mini 
+     * @param {string} GIFImg 
+     * @param {string} WEBPImg 
+     */
     constructor(Name, Desc, GiftType, Price, StlcImg, StlcImg_Mini, GIFImg, WEBPImg) {
         this.Name = Name;
         this.Desc = Desc;
@@ -10,6 +24,18 @@ class Gift {
         this.WEBPImg = WEBPImg;
     }
 
+    /**
+     * 查询礼物信息
+     * @param {number} GiftID 礼物的ID【整数】
+     * @returns Gift
+     */
+    static GiftInfo(GiftID) {
+        return Gift.List.get(GiftID);
+    }
+
+    /**
+     * 礼物数据库
+     */
     static List = new Map([
         [30635, new Gift("冰阔乐测试", "测试测试测试", 1, 1, "https://s1.hdslb.com/bfs/live/080753229f6069d1f9c33026b455c9035d0d6ec0.png", "https://i0.hdslb.com/bfs/live/4f637f73faa6476abd300ccb5113993affb8e621.png", "https://i0.hdslb.com/bfs/live/ef144e1910c5dfa20ab8683b352379162d4e7228.gif", "https://i0.hdslb.com/bfs/live/b01e128fa4ab6218943c468ae24168feffb7c337.webp")],
         [31307, new Gift("烟花棒", "可在初夏人气争锋赛中，为主播增加100积分", -1, 0, "https://s1.hdslb.com/bfs/live/fe69a56589a0361b177c62d681fdb3ecbe1bee7f.png", "https://i0.hdslb.com/bfs/live/fe69a56589a0361b177c62d681fdb3ecbe1bee7f.png", "https://i0.hdslb.com/bfs/live/d4cc8d5185d8c2ec8b353f74de1e16a2f32f73ef.gif", "https://i0.hdslb.com/bfs/live/4ea2b3543353a53473c08384bbda67dd832ddeac.webp")],
