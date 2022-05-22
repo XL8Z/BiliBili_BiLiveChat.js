@@ -109,7 +109,7 @@ class BiliBili_PlayWithMe {
     /**
      * 使用JSONP方式获取签名授权进行连接
      */
-    PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP() {
+    static PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP() {
         let Elmts = document.createElement('script');
         Elmts.src = "http://BiLive.XL7Z.net/BiliFanFan/BiLiveChat/Proxy/PlgnSrtAndWEBSocket?RoomID=" + BiliBili_PlayWithMe.LiveRoomID.toString();
 
@@ -532,8 +532,5 @@ class CombinedGifts {
         // 移除Map注销自身
         BiliBili_PlayWithMe.GiftCombine_Map.delete(CombinedGifts.MakeID(this));
     }
-
-
-
 
 }
