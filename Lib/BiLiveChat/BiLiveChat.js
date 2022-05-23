@@ -1,4 +1,12 @@
 class BiLiveChat {
+    static Init() {
+        BiliBili_PlayWithMe.Authorizer.Type = "JSONP";
+        BiliBili_PlayWithMe.Authorizer.RemoteAuthorizerServer = "http://BiLive.XL7Z.net/BiliFanFan/BiLiveChat/Proxy/PlgnSrtAndWEBSocket";
+
+        BiliBili_PlayWithMe.Init();
+
+    }
+
     /**
      * 粉丝团等级阈值
      */

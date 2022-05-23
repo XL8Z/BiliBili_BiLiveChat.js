@@ -28,7 +28,9 @@ class BiliBili_PlayWithMe {
     static MID = 0;
 
     /**
-     *  默认启动礼物连击合并
+     * 礼物连击合并
+     * - 默认启动
+     * - 需要等待连击结束，所以会产生延迟
      */
     static GiftCombine_Enable = true;
 
@@ -38,14 +40,18 @@ class BiliBili_PlayWithMe {
     static GiftCombine_Map = new Map();
 
     /**
-     * 默认超过5秒没有再送礼物视为连击结束
+     * 礼物合并延迟
+     * - 如默认5，则超过5秒没有再送礼物视为连击结束
+     * - 礼物延迟播报的罪魁祸首
+     * - 过短则无法正确合并礼物连击
      */
     static GiftCombine_Countdown = 5;
 
     /**
-     * 初始化方法
+     * 初始化方法【必须】
      */
     static Init() {
+        // 解析地址栏里URL，获取其他参数【如果手动设置过当我放屁】
         let URLParam = window.location.search.substring(1).split('&');
         URLParam.forEach(str => {
             let KAndV = str.split('=');
@@ -81,7 +87,8 @@ class BiliBili_PlayWithMe {
     }
 
     /**
-     * 每秒刷新一次每个连击的计数器，触发一次每个连击的Tick事件
+     * 每秒刷新一次每个连击的计数器，依次触发每个连击的Tick事件
+     * - 当连击记录的Tick计数【没有礼物接着连击的秒数】超过上面的超时时间，则判断连击结束
      */
     static GiftCombine_Timer = setInterval(() => {
         BiliBili_PlayWithMe.GiftCombine_Map.forEach(
@@ -89,7 +96,6 @@ class BiliBili_PlayWithMe {
                 v.Tick();
             });
     }, 1000);
-
 
 
     /**
@@ -107,11 +113,11 @@ class BiliBili_PlayWithMe {
 
     /**
      * 使用JSONP方式获取签名授权进行连接
+     * - 
      */
     static PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP() {
         let Elmts = document.createElement('script');
-        Elmts.src = "http://BiLive.XL7Z.net/BiliFanFan/BiLiveChat/Proxy/PlgnSrtAndWEBSocket?RoomID=" + BiliBili_PlayWithMe.LiveRoomID.toString();
-
+        Elmts.src = BiliBili_PlayWithMe.Authorizer.RemoteAuthorizerServer + "?RoomID=" + BiliBili_PlayWithMe.LiveRoomID.toString();
         document.body.appendChild(Elmts);
 
         Elmts.onload = (evt) => {
@@ -122,7 +128,7 @@ class BiliBili_PlayWithMe {
         }
 
         Elmts.onerror = (evt) => {
-            BiliBili_PlayWithMe.NewSystemNotice("代签授权失败，请联系Q群 248810727 https://jq.qq.com/?_wv=1027&k=UTn3mvTF")
+            BiliBili_PlayWithMe.NewSystemNotice("JSONP代签失败")
             evt.currentTarget.remove();
         }
     }
@@ -477,7 +483,7 @@ class UtilTools {
      * 一键测试
      */
     static AutoTest() {
-        BiliBili_PlayWithMe.NewSystemNotice("开始样式测试");
+        setTimeout(() => BiliBili_PlayWithMe.NewSystemNotice("开始样式测试，如果你不想要测试，请移除HTML文件里的“UtilTools.AutoTest();”调用"), 1100);
         setTimeout(() => BiliBili_PlayWithMe.Test(样本.礼物), 100);
         setTimeout(() => BiliBili_PlayWithMe.Test(样本.弹幕), 3000);
         setTimeout(() => BiliBili_PlayWithMe.Test(样本.上舰), 7000);

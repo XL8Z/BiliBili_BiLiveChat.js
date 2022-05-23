@@ -225,8 +225,8 @@
 
 
 
-    // 初始化PlayWithMe.js
-    BiliBili_PlayWithMe.Init();
+    // 初始化BiLiveChat.js【会自动一起初始化核心程序PlayWithMe.js】
+    BiLiveChat.Init();
     // 由某喵的代签服务器向B站申请进行WEBSocket长连接，成功了会自动连入
     BiliBili_PlayWithMe.PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP();
     // 执行到这里没问题的话，有弹幕就会自动调用你的代码了
