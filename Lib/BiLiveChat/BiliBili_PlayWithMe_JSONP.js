@@ -477,7 +477,8 @@ class UtilTools {
      * 一键测试
      */
     static AutoTest() {
-        BiliBili_PlayWithMe.Test(样本.礼物)
+        BiliBili_PlayWithMe.NewSystemNotice("开始样式测试");
+        setTimeout(() => BiliBili_PlayWithMe.Test(样本.礼物), 100);
         setTimeout(() => BiliBili_PlayWithMe.Test(样本.弹幕), 3000);
         setTimeout(() => BiliBili_PlayWithMe.Test(样本.上舰), 7000);
         setTimeout(() => BiliBili_PlayWithMe.Test(样本.SC), 9000);
