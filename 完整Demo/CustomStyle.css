@@ -71,6 +71,8 @@
         margin: .5em .5em;
         vertical-align: middle;
         line-height: 2em;
+        display: flex;
+        justify-content: center;
     }
     
     #div_BiLiveChatOutputer>.div_OutputerItem span.NickName {
@@ -376,6 +378,14 @@
     
     #div_BiLiveChatOutputer>.div_OutputerItem[type="Gifts"] span.Content {
         line-height: 3em;
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Gifts"] span.Content::before {
+        content: " 送了 ";
+    }
+    
+    #div_BiLiveChatOutputer>.div_OutputerItem[type="Gifts"] span.Content>* {
+        margin: 0 .5em;
     }
     /* 上舰样式 */
     
