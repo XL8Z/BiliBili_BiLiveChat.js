@@ -23,7 +23,7 @@ class BiLiveChat {
 
     /**
      * 滚动到最底部
-     * - 注意依赖于默认Documents里位于 #div_BiLiveChatOutputer 下面的 #hr_BottomMark
+     * - 注意依赖于默认Documents里位于 #div_BiLiveChatOutputer 下面的 #hr_BottomMark 工作
      */
     static GoBottom() {
         document.getElementById("hr_BottomMark").scrollIntoView(false);
@@ -42,12 +42,12 @@ class BiLiveChat {
     }
 
     /**
-     * 根据URL生成img标签头像
+     * 根据URL生成img礼物Icon【WEBP动图】
      * - 不满意可以自己重写
      * - @128w_128h是B站图床的控制参数，表示128像素宽高
      * - 加1-3c还可以控制图像质量和压缩比，不加不压画质，如@64w_64h_1c
-     * @param {string} URL 
-     * @returns 标准的img标签头像
+     * @param {number} GiftID 礼物Int类型ID
+     * @returns 标准的img标签礼物Icon
      */
     static Make_GiftIcon_WEBP(GiftID) {
         return "<img class = 'GiftIcon' src='" + Gift.Info(GiftID).WEBPImg + "@128w_128h'/>"
