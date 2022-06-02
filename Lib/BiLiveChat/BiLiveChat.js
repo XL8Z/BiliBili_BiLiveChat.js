@@ -1,9 +1,14 @@
 class BiLiveChat {
     static Init() {
+        // 设置JSONP模式代签
         BiliBili_PlayWithMe.Authorizer.Type = "JSONP";
+        // 设置代签服务器地址
         BiliBili_PlayWithMe.Authorizer.RemoteAuthorizerServer = "http://BiLive.XL7Z.net/BiliFanFan/BiLiveChat/Proxy/PlgnSrtAndWEBSocket";
 
+        // 初始化PlayWithMe.js
         BiliBili_PlayWithMe.Init();
+        // 由某喵的代签服务器向B站申请进行WEBSocket长连接，成功了会自动连入
+        BiliBili_PlayWithMe.PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP();
 
     }
 

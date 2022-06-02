@@ -16,7 +16,7 @@
     <!-- https://github.com/LinusU/decode-utf8 -->
     <script src="./../Lib/LinusU/decode-utf8.js" type="text/javascript"></script>
     <!-- https://gitee.com/XL8Z/BiliBili_PlayWithMe_JS -->
-    <script src="./../Lib/BiLiveChat/BiliBili_PlayWithMe_JSONP.js" type="text/javascript"></script>
+    <script src="./../Lib/BiLiveChat/BiliBili_PlayWithMe.js" type="text/javascript"></script>
 
     <script src="./../Lib/BiLiveChat/BiLiveChat.js" type="text/javascript"></script>
     <link href="./../Lib/BiLiveChat/BiLiveChat.css" rel="stylesheet">
@@ -227,8 +227,6 @@
 
     // 初始化BiLiveChat.js【会自动一起初始化核心程序PlayWithMe.js】
     BiLiveChat.Init();
-    // 由某喵的代签服务器向B站申请进行WEBSocket长连接，成功了会自动连入
-    BiliBili_PlayWithMe.PrepareWEBSocketConnection_WithRemoteAuthorizerServer_UseJSONP();
     // 执行到这里没问题的话，有弹幕就会自动调用你的代码了
 
 
