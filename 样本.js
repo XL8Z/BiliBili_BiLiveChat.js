@@ -1,18 +1,40 @@
 var 样本 = {
     "弹幕": {
-        "data": {
-            "fans_medal_level": 21,
-            "fans_medal_name": "官方",
-            "fans_medal_wearing_status": false,
-            "guard_level": 0,
-            "msg": "你们谁扔个小心心呗",
-            "timestamp": 1650717881,
-            "uid": 3102384,
-            "uname": "猫裙少年泽远喵",
-            "uface": "http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg",
-            "room_id": 4639581
+        "自己的弹幕": {
+            "dm_type": 0,// 弹幕类型，0普通，1纯表情，目前只有0和1
+            "emoji_img_url": "",// 如果是表情弹幕，这里会给出表情的图片
+            "fans_medal_level": 22,// 发弹幕者在当前直播间的粉丝团等级
+            "fans_medal_name": "Anti粉",// 当前直播间内的粉丝牌名字
+            "fans_medal_wearing_status": false,// 他是否佩戴了这个粉丝牌
+            "guard_level": 0,// 舰队等级
+            "msg": "喵喵喵喵喵",// 弹幕内容
+            "timestamp": 1672338197,// UNIX时间戳
+            "uid": 3102384,// 发弹幕用户的B站UID
+            "uname": "猫裙少年泽远喵",// 发弹幕用户的昵称
+            "uface": "http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg",// 头像，万恶的头像【Blivechat：谢谢脑瓜子已经在疼了】
+            "msg_id": "b706a698-1efc-4a70-a7d0-0ac41098e51b",// 一个随机生成的UUID，用于防重复，可以不管
+            "room_id": 4639581,// 该直播间的直播间ID
+            "type": "Danmaku",// 事件类型，备用
+            "user_tag": "Self"// 用户的特殊身份，目前只有Self=主播本人
         },
-        "cmd": "LIVE_OPEN_PLATFORM_DM"
+        "表情弹幕":
+        {
+            "dm_type": 1,// 弹幕类型，0普通，1纯表情，目前只有0和1
+            "emoji_img_url": "http://i0.hdslb.com/bfs/live/7b7a2567ad1520f962ee226df777eaf3ca368fbc.png",// 如果是表情弹幕，这里会给出表情的图片
+            "fans_medal_level": 0,// 发弹幕者在当前直播间的粉丝团等级
+            "fans_medal_name": "",// 当前直播间内的粉丝牌名字
+            "fans_medal_wearing_status": false,// 他是否佩戴了这个粉丝牌
+            "guard_level": 0,// 舰队等级
+            "msg": "妙啊",// 弹幕内容
+            "timestamp": 1672339037,// UNIX时间戳
+            "uid": 1680630163,// 发弹幕用户的B站UID
+            "uname": "缇思teath",// 发弹幕用户的昵称
+            "uface": "https://i1.hdslb.com/bfs/face/55ba3aab8307c75cfdb5d39486bafd4d98e107d6.jpg",// 头像，万恶的头像【Blivechat：谢谢脑瓜子已经在疼了】
+            "msg_id": "5125d1df-d80d-4ad1-b3dd-b22a36d57709",// 一个随机生成的UUID，用于防重复，可以不管
+            "room_id": 4639581,// 该直播间的直播间ID
+            "type": "Danmaku",// 事件类型，备用
+            "user_tag": ""// 用户的特殊身份，目前只有Self=主播本人
+        }
     },
     "礼物": {
         "data": {

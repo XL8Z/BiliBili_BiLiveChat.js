@@ -1,0 +1,418 @@
+:root {
+    /* 其他设置 */
+    --基础字号: 18px;
+
+    /* 主题颜色 */
+    --默认文字颜色: #FFF;
+    --默认描边颜色: #000;
+
+    /* 粉丝团粉丝牌 */
+    --粉丝团新人粉丝牌: #BE9;
+    --粉丝团老粉粉丝牌: #FC9;
+    --粉丝团核心粉丝粉丝牌: #F88;
+    --粉丝团骨灰粉丝粉丝牌: #F55;
+
+    /* 舰队主题颜色 */
+    --舰长主题颜色: #5BF;
+    --提督主题颜色: #56f;
+    --总督主题颜色: #65F;
+
+    /* 房管与主播 */
+    --主播描边颜色: #cf723c;
+    --房管描边颜色: #cf723c;
+
+    /* 事件 */
+
+    --礼物主题颜色: #F33;
+    --礼物主题浅色: #F55;
+    --上舰主题颜色: #216ed3;
+    --上舰主题浅色: #5b95cc;
+    --SC主题颜色: #ee8e1f;
+    --SC主题浅色: #df9f56;
+}
+
+/* 引入自定义字体 */
+
+@font-face {
+    font-family: 霞鹜漫黑;
+    src: url('/assets/BiLiveChat.Cloud/Font/LXGW/%E9%9C%9E%E9%B9%9C%E6%BC%AB%E9%BB%91/LxgwMarkerGothic-Regular.ttf');
+}
+
+* {
+    font-family: '霞鹜漫黑';
+}
+
+#div_BiLiveChatOutputer .OutputerItem {
+    color: #FFF;
+    font-size: 1.25rem;
+    margin: .25em 1em;
+    line-height: 1.5em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    word-break: keep-all;
+    animation: 左浮出 1s cubic-bezier(0.260, 0.860, 0.440, 0.985);
+}
+
+#div_BiLiveChatOutputer .OutputerItem[medal_level="0"] {
+    text-shadow: .0625rem .0625rem .125rem #000;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Danmaku"]:not([medal_level="0"]) {
+    text-shadow: .0625rem .0625rem 0 #000, .125rem .125rem 0 #000;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Danmaku"]:not([guard_level="0"]) {
+    text-shadow: -.1em -.1em #000, -.1em -.05em #000, -.1em 0 #000, -.1em .05em #000, -.1em .1em #000, -.05em -.1em #000, -.05em -.05em #000, -.05em 0 #000, -.05em .05em #000, -.05em .1em #000, 0 -.1em #000, 0 -.05em #000, 0 0 #000, 0 .05em #000, 0 .1em #000, .05em -.1em #000, .05em -.05em #000, .05em 0 #000, .05em .05em #000, .05em .1em #000, .1em -.1em #000, .1em -.05em #000, .1em 0 #000, .1em .05em #000, .1em .1em #000;
+}
+
+#div_BiLiveChatOutputer .OutputerItem span {
+    margin: .25rem .5rem;
+}
+
+#div_BiLiveChatOutputer .OutputerItem .Avatar {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 50%;
+    margin: .5rem;
+}
+
+#div_BiLiveChatOutputer .OutputerItem .GiftIcon {
+    height: 2.5rem;
+    width: 2.5rem;
+    margin: .5rem;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Danmaku"] .Nickname {}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Danmaku"] .NickName::after {
+    content: "：";
+
+}
+
+#div_BiLiveChatOutputer>.OutputerItem[type="Danmaku"][emoticon="true"] img.Content {
+    max-height: 5rem;
+    width: auto;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"][paid="true"],
+#div_BiLiveChatOutputer .OutputerItem[type="Guard"],
+#div_BiLiveChatOutputer .OutputerItem[type="SuperChat"] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: left;
+    width: 25rem;
+    box-shadow: .0625rem .0625rem .125rem #000;
+    text-shadow: none;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"][paid="true"]>div,
+#div_BiLiveChatOutputer .OutputerItem[type="Guard"]>div,
+#div_BiLiveChatOutputer .OutputerItem[type="SuperChat"]>div {
+    flex-grow: 1;
+    width: 100%;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"][paid="true"]>.Head,
+#div_BiLiveChatOutputer .OutputerItem[type="Guard"]>.Head,
+#div_BiLiveChatOutputer .OutputerItem[type="SuperChat"]>.Head {
+    border-top-left-radius: .15em;
+    border-top-right-radius: .15em;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"][paid="true"]>.Head .Avatar,
+#div_BiLiveChatOutputer .OutputerItem[type="Guard"]>.Head .Avatar,
+#div_BiLiveChatOutputer .OutputerItem[type="SuperChat"]>.Head .Avatar {
+    margin: .5em 0 .5em 1em;
+    height: 3em;
+    width: 3em;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"][paid="true"]>.Head .NickName,
+#div_BiLiveChatOutputer .OutputerItem[type="Guard"]>.Head .NickName,
+#div_BiLiveChatOutputer .OutputerItem[type="SuperChat"]>.Head .NickName {
+    position: absolute;
+    top: .5rem;
+    left: 6rem;
+    font-size: 1.25rem;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"][paid="true"]>.Head .Price,
+#div_BiLiveChatOutputer .OutputerItem[type="Guard"]>.Head .Price,
+#div_BiLiveChatOutputer .OutputerItem[type="SuperChat"]>.Head .Price {
+    position: absolute;
+    left: 6rem;
+    top: 2.5rem;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"][paid="true"]>.Content,
+#div_BiLiveChatOutputer .OutputerItem[type="Guard"]>.Content,
+#div_BiLiveChatOutputer .OutputerItem[type="SuperChat"]>.Content {
+    line-height: 3rem;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Guard"]>.Content>span,
+#div_BiLiveChatOutputer .OutputerItem[type="SuperChat"]>.Content>span {
+    margin-left: 1.25rem;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"][paid="true"] .GiftIcon,
+#div_BiLiveChatOutputer .OutputerItem[type="Guard"] .GiftIcon {
+    position: absolute;
+    right: 1rem;
+    top: .75rem;
+    width: 6rem;
+    height: 6rem;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"][paid="true"] .Head {
+    background-color: var(--礼物主题颜色);
+    flex-grow: 1;
+
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"][paid="true"] .Content {
+    background-color: var(--礼物主题浅色);
+    flex-grow: 1;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"] {}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"][paid=false] {
+    text-shadow: -.1em -.1em var(--礼物主题颜色), -.1em -.05em var(--礼物主题颜色), -.1em 0 var(--礼物主题颜色), -.1em .05em var(--礼物主题颜色), -.1em .1em var(--礼物主题颜色), -.05em -.1em var(--礼物主题颜色), -.05em -.05em var(--礼物主题颜色), -.05em 0 var(--礼物主题颜色), -.05em .05em var(--礼物主题颜色), -.05em .1em var(--礼物主题颜色), 0 -.1em var(--礼物主题颜色), 0 -.05em var(--礼物主题颜色), 0 0 var(--礼物主题颜色), 0 .05em var(--礼物主题颜色), 0 .1em var(--礼物主题颜色), .05em -.1em var(--礼物主题颜色), .05em -.05em var(--礼物主题颜色), .05em 0 var(--礼物主题颜色), .05em .05em var(--礼物主题颜色), .05em .1em var(--礼物主题颜色), .1em -.1em var(--礼物主题颜色), .1em -.05em var(--礼物主题颜色), .1em 0 var(--礼物主题颜色), .1em .05em var(--礼物主题颜色), .1em .1em var(--礼物主题颜色);
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"] .Content::before {
+    content: "送了";
+    margin-right: .25em;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"][paid="true"] .Content::before {
+    margin: 0 .25rem 0 1.25rem;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Gifts"] .Content span {
+    margin-left: 0;
+}
+
+
+
+
+#div_BiLiveChatOutputer .OutputerItem[type="Guard"] .Head {
+    background-color: var(--上舰主题颜色);
+    flex-grow: 1;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="Guard"] .Content {
+    background-color: var(--上舰主题浅色);
+    flex-grow: 1;
+}
+
+
+#div_BiLiveChatOutputer .OutputerItem[type="SuperChat"] .Head {
+    background-color: var(--SC主题颜色);
+    flex-grow: 1;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="SuperChat"] .Content {
+    background-color: var(--SC主题浅色);
+    flex-grow: 1;
+}
+
+#div_BiLiveChatOutputer .OutputerItem[type="SuperChat"] .Content p {
+    word-wrap: break-word;
+    margin: .5rem 1.25rem;
+    line-height: 2rem;
+    text-shadow: none;
+}
+
+
+
+
+
+
+
+
+
+#div_BiLiveChatOutputer .OutputerItem[guard_level="3"] .Nickname {}
+
+#div_BiLiveChatOutputer .OutputerItem[guard_level="2"] .Nickname {}
+
+#div_BiLiveChatOutputer .OutputerItem[guard_level="1"] .Nickname {}
+
+#div_BiLiveChatOutputer .OutputerItem[user_tag="Self"] .Nickname {
+    text-shadow: -.1em -.1em var(--主播本人描边颜色), -.1em -.05em var(--主播本人描边颜色), -.1em 0 var(--主播本人描边颜色), -.1em .05em var(--主播本人描边颜色), -.1em .1em var(--主播本人描边颜色), -.05em -.1em var(--主播本人描边颜色), -.05em -.05em var(--主播本人描边颜色), -.05em 0 var(--主播本人描边颜色), -.05em .05em var(--主播本人描边颜色), -.05em .1em var(--主播本人描边颜色), 0 -.1em var(--主播本人描边颜色), 0 -.05em var(--主播本人描边颜色), 0 0 var(--主播本人描边颜色), 0 .05em var(--主播本人描边颜色), 0 .1em var(--主播本人描边颜色), .05em -.1em var(--主播本人描边颜色), .05em -.05em var(--主播本人描边颜色), .05em 0 var(--主播本人描边颜色), .05em .05em var(--主播本人描边颜色), .05em .1em var(--主播本人描边颜色), .1em -.1em var(--主播本人描边颜色), .1em -.05em var(--主播本人描边颜色), .1em 0 var(--主播本人描边颜色), .1em .05em var(--主播本人描边颜色), .1em .1em var(--主播本人描边颜色);
+}
+
+
+
+
+
+.shadow-soft {
+    text-shadow: .0625rem .0625rem .125rem #000
+}
+
+.shadow-hard {
+    text-shadow: .0625rem .0625rem 0 #7a7a7a, .125rem .125rem 0 #7a7a7a
+}
+
+.stroke-soft {
+    text-shadow: 0 0 .25rem #000, 0 0 .0625rem #000
+}
+
+.stroke-hard {
+    text-shadow: .0625rem .0625rem 0 #7a7a7a, -.0625rem -.0625rem 0 #7a7a7a, .0625rem -.0625rem 0 #7a7a7a, -.0625rem .0625rem 0 #7a7a7a
+}
+
+.stroke-pink {
+    text-shadow: #fd0094 0 0 .25rem
+}
+
+.stroke-frame {
+    -webkit-text-stroke: .0625rem #fff
+}
+
+.stroke-blue {
+    text-shadow: #14f6fa 0 0 .3125rem
+}
+
+.stroke-purple {
+    text-shadow: #f971f9 0 0 .3125rem
+}
+
+.stroke-violet {
+    text-shadow: #9105e2 0 0 .3125rem
+}
+
+
+
+/* 粉丝团牌子 */
+
+#div_BiLiveChatOutputer>.OutputerItem i.FansMedal {
+    text-shadow: none;
+    font-style: normal;
+    display: inline-flex;
+    margin: 0;
+    box-shadow: .0625rem .0625rem 0 #3335, .125rem .125rem 0 #3335;
+    border-radius: .2em;
+    margin: 0 .5em;
+}
+
+#div_BiLiveChatOutputer>.OutputerItem i.FansMedal::before {
+    content: attr(name);
+    background-color: #F88;
+    padding: .15em;
+    border-top-left-radius: .2em;
+    border-bottom-left-radius: .2em;
+    padding-left: .35em;
+    color: var(--默认文字颜色);
+    font-weight: 500;
+    line-height: 1.3em;
+    height: 1.3em;
+}
+
+#div_BiLiveChatOutputer>.OutputerItem i.FansMedal::after {
+    content: attr(level);
+    padding: 0 .1em;
+    line-height: 1.3em;
+    height: 1.3em;
+    border-top-right-radius: .2em;
+    border-bottom-right-radius: .2em;
+    border: solid .15em;
+    border-color: #F88;
+    background-color: #fff;
+    color: #F88;
+    padding-left: .15em;
+    font-weight: 700;
+}
+
+/* 新粉牌子 */
+
+#div_BiLiveChatOutputer>.OutputerItem[medal_level_level='0'] i.FansMedal::before {
+    background-color: var(--粉丝团新人粉丝牌);
+}
+
+#div_BiLiveChatOutputer>.OutputerItem[medal_level_level='0'] i.FansMedal::after {
+    border-color: var(--粉丝团新人粉丝牌);
+    color: var(--粉丝团新人粉丝牌);
+}
+
+/* 老粉牌子 */
+
+#div_BiLiveChatOutputer>.OutputerItem[medal_level_level='1'] i.FansMedal::before {
+    background-color: var(--粉丝团老粉粉丝牌);
+}
+
+#div_BiLiveChatOutputer>.OutputerItem[medal_level_level='1'] i.FansMedal::after {
+    border-color: var(--粉丝团老粉粉丝牌);
+    color: var(--粉丝团老粉粉丝牌);
+}
+
+/* 核心粉丝牌子 */
+
+#div_BiLiveChatOutputer>.OutputerItem[medal_level_level='2'] i.FansMedal::before {
+    background-color: var(--粉丝团核心粉丝粉丝牌);
+}
+
+#div_BiLiveChatOutputer>.OutputerItem[medal_level_level='2'] i.FansMedal::after {
+    border-color: var(--粉丝团核心粉丝粉丝牌);
+    color: var(--粉丝团核心粉丝粉丝牌);
+}
+
+/* 骨灰粉丝牌子 */
+
+#div_BiLiveChatOutputer>.OutputerItem[medal_level_level='3'] i.FansMedal::before {
+    background-color: var(--粉丝团骨灰粉丝粉丝牌);
+}
+
+#div_BiLiveChatOutputer>.OutputerItem[medal_level_level='3'] i.FansMedal::after {
+    border-color: var(--粉丝团骨灰粉丝粉丝牌);
+    color: var(--粉丝团骨灰粉丝粉丝牌);
+}
+
+/* 舰长牌子 */
+
+#div_BiLiveChatOutputer>.OutputerItem[guard_level='3'] i.FansMedal::before {
+    background-color: var(--舰长主题颜色);
+}
+
+#div_BiLiveChatOutputer>.OutputerItem[guard_level='3'] i.FansMedal::after {
+    border-color: var(--舰长主题颜色);
+    color: var(--舰长主题颜色);
+}
+
+/* 提督牌子 */
+
+#div_BiLiveChatOutputer>.OutputerItem[guard_level='2'] i.FansMedal::before {
+    background-color: var(--提督主题颜色);
+}
+
+#div_BiLiveChatOutputer>.OutputerItem[guard_level='2']>i.FansMedal::after {
+    border-color: var(--提督主题颜色);
+    color: var(--提督主题颜色);
+}
+
+/* 总督牌子 */
+
+#div_BiLiveChatOutputer>.OutputerItem[guard_level='1'] i.FansMedal::before {
+    background-color: var(--总督主题颜色);
+}
+
+#div_BiLiveChatOutputer>.OutputerItem[guard_level='1'] i.FansMedal::after {
+    border-color: var(--总督主题颜色);
+    color: var(--总督主题颜色);
+}
+
+@keyframes 左浮出 {
+    0% {
+        transform: translateX(-70%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0%);
+    }
+}

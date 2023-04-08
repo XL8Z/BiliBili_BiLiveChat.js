@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta http-equiv="content-language" content="zh-CN">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta content="never" name="referrer">
+
+    <title>样式编写 - 雪狼八组/ProjectP3：BiLive</title>
+    <meta name="author" content="[XL8Z]Ms_KuroNeko">
+
+    <!-- <script src="https://bilive.xl7z.net/assets/BiLiveChat.js/BiLiveChat.js" type="text/javascript"></script> -->
+    <link href="https://bilive.xl7z.net/assets/BiLiveChat.js/BiLiveChat.css" rel="stylesheet">
+
+    <!-- 样式CSS与JS -->
+    <link href="./Template.css" rel="stylesheet">
+    <script src="./Template.js" type="text/javascript"></script>
+    <link href="./Custom.css" rel="stylesheet">
+    <script src="./Custom.js" type="text/javascript"></script>
+
+    <style>
+        body {
+            background-color: #777;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 默认的输出面板，最好不要改动 -->
+    <div id="div_BiLiveChatOutputer">
+        <div class="OutputerItem" type="Danmaku" medal_level="21" medal_level_level="4" guard_level="2" user_tag="">
+            <!-- 生成头像 -->
+            <img class="Avatar"
+                src="http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg@128w_128h">
+            <!--  生成粉丝牌 -->
+            <i class="FansMedal" name="官方" level="21"> </i>
+            <!-- 生成昵称 -->
+            <span class="NickName">猫裙少年泽远喵</span>
+            <!-- 生成内容 -->
+            <span class="Content">开始简易测试，如果你不想要测试，请移除HTML文件里的“BiLiveChat.AutoTest();”调用</span>
+        </div>
+        <div class="OutputerItem" type="Danmaku" medal_level="0" medal_level_level="0" guard_level="0" user_tag="">
+            <!-- 生成头像 -->
+            <img class="Avatar"
+                src="http://i0.hdslb.com/bfs/face/7ced8612a3f3ef10e7238ee22b4c6948d3f53139.jpg@128w_128h">
+            <!--  生成粉丝牌 -->
+
+            <!-- 生成昵称 -->
+            <span class="NickName">猫裙少年泽远喵</span>
+            <!-- 生成内容 -->
+            <span class="Content">你们谁扔个小心心呗</span>
+        </div>
+        <div class="OutputerItem" type="Gifts" medal_level="25" medal_level_level="4" guard_level="3" user_tag=""
+            paid="false" price="0"><!-- 生成头像 -->
+            <img class="Avatar"
+                src="http://i2.hdslb.com/bfs/face/e549b18085113c6f824c0eefaf2c9d9dcaf5a1d5.jpg@128w_128h">
+            <!-- 生成昵称 -->
+            <span class="NickName">不忘韩文初心</span>
+            <!-- 生成文本 -->
+            <span class="Content">4 个 小心心</span>
+            <!-- 生成Icon -->
+            <img class="GiftIcon"
+                src="https://i0.hdslb.com/bfs/live/cce60fd908e4910a340a1a4a061a3d4d4a1a123d.webp@256w">
+        </div>
+        <div class="OutputerItem" type="Gifts" medal_level="25" medal_level_level="4" guard_level="3" user_tag="" paid="true" price="10"><div class="Head">
+            <!-- 生成头像 -->
+            <img class="Avatar" src="http://i2.hdslb.com/bfs/face/e549b18085113c6f824c0eefaf2c9d9dcaf5a1d5.jpg@128w_128h">
+            <!-- 生成昵称 -->
+            <span class="NickName">不忘韩文初心</span>
+            <span class="Price">￥0.1</span>
+        </div>
+        <div class="Content">
+            <!-- 生成数量 -->
+            <span>1 个 小花花</span>
+        </div>
+        <!-- 生成Icon -->
+        <img class="GiftIcon" src="https://i0.hdslb.com/bfs/live/a4c8a134c059665d8d477a803b12430222d8e7b8.webp@256w"></div>
+        <div class="OutputerItem" type="Guard" medal_level="2" medal_level_level="0" guard_level="3" user_tag="">
+            <div class="Head">
+                <!-- 生成头像 -->
+                <img class="Avatar"
+                    src="http://i0.hdslb.com/bfs/face/061e978938b8a60b4920fad15596657e77465170.jpg@128w_128h">
+                <!-- 生成昵称 -->
+                <span class="NickName">Sequbre</span>
+                <span class="Price">￥198</span>
+            </div>
+            <div class="Content">
+                <!-- 生成数量 -->
+                <span>上了 1 个 月 的 舰长</span>
+            </div>
+            <!-- 生成Icon -->
+            <img class="GiftIcon"
+                src="https://s1.hdslb.com/bfs/static/blive/blfe-live-room/static/img/icon-l-3.402ac8f..png">
+        </div>
+        <div class="OutputerItem" type="SuperChat" medal_level="0" medal_level_level="0" guard_level="0" user_tag="">
+            <div class="Head">
+                <!-- 生成头像 -->
+                <img class="Avatar"
+                    src="http://i0.hdslb.com/bfs/face/061e978938b8a60b4920fad15596657e77465170.jpg@128w_128h">
+                <!-- 生成昵称 -->
+                <span class="NickName">Sequbre</span>
+                <span class="Price">￥30</span>
+            </div>
+            <div class="Content">
+                <p>进行一个鱼的摸</p>
+            </div>
+        </div>
+    <!-- ↓这玩意的存在是用来给滚动功能指路的，如果没有会导致无法正确滚动到最底部 -->
+    <hr id="hr_BottomMark" style="border:none;" />
+</body>
+
+
+
+
+<!-- 插件设置与初始化部分，一定放在最后，不然可能出现需要的JS代码未加载的问题 -->
+<script>
+    BiLive_PlayWithMeJS.AuthCode = "BQ9TTI3Q*****";
+
+    // 初始化BiLiveChat.js【会自动一起初始化核心程序PlayWithMe.js】
+    // BiLiveChat.Init();
+    // 执行到这里没问题的话，有弹幕就会自动调用你的代码了
+
+    // 模拟测试
+    // BiLiveChat.AutoTest();
+    // setInterval(() => { BiLiveChat.AutoTest(); }, 15000)
+</script>
+
+</html>
